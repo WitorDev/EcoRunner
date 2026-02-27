@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://ytrj15v1gtfu"]
+
+[ext_resource type="Texture2D" uid="uid://byskno03fyj7k" path="res://icon.svg" id="1_errlg"]
+[ext_resource type="PackedScene" uid="uid://bkugd4flnxskk" path="res://scenes/Player/leco.tscn" id="2_bl13t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ij1v8"]
+size = Vector2(1278, 20)
+
+[node name="Node2D" type="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(578, 608)
+shape = SubResource("RectangleShape2D_ij1v8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(582, 665)
+scale = Vector2(9.9375, 1)
+texture = ExtResource("1_errlg")
+
+[node name="Leco" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(571, 212)

@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw3tlp5xbu0c5"]
+
+[ext_resource type="Script" uid="uid://6hoyuag1muga" path="res://scenes/UI/hud.gd" id="1_rd3kb"]
+
+[node name="HUD" type="CanvasLayer" groups=["hud"]]
+script = ExtResource("1_rd3kb")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ItemSprite" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 955.0
+offset_top = 483.0
+offset_right = 988.0
+offset_bottom = 516.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(1.90687, 1.89414)

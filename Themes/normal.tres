@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dqv85ce5ari1e"]
+
+[ext_resource type="FontFile" uid="uid://baht1mrwwqyva" path="res://Themes/PixelifySans-VariableFont_wght.ttf" id="1_8nt1g"]
+[ext_resource type="StyleBox" uid="uid://biux5y1v2eoi0" path="res://Themes/style_box_slanted.tres" id="2_onwtx"]
+
+[resource]
+Button/fonts/font = ExtResource("1_8nt1g")
+Button/styles/disabled = ExtResource("2_onwtx")
+Button/styles/normal = ExtResource("2_onwtx")

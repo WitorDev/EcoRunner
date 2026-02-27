@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://doxgbiws4kf2n"]
+
+[ext_resource type="Theme" uid="uid://dqv85ce5ari1e" path="res://Themes/normal.tres" id="1_3rxi0"]
+[ext_resource type="Script" uid="uid://dfueth6ixjpjs" path="res://scenes/UI/interact_button.gd" id="1_g2hd1"]
+[ext_resource type="Script" uid="uid://0susgxtcfxst" path="res://scenes/UI/look_up.gd" id="2_7fg5y"]
+
+[node name="InteractButton" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -14.19
+offset_bottom = -14.19
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("1_3rxi0")
+script = ExtResource("2_7fg5y")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.5
+offset_top = -15.5
+offset_right = 26.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+toggle_mode = true
+text = "Pegar"
+script = ExtResource("1_g2hd1")
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
