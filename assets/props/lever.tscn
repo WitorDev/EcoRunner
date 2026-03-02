@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://oenu7vb861f0"]
+
+[ext_resource type="Script" uid="uid://bspqrl1fk6iw8" path="res://lever.gd" id="1_6u5pb"]
+[ext_resource type="Texture2D" uid="uid://d1t2167b3nise" path="res://parallax_layers/lever.png" id="2_efsnh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hikuq"]
+radius = 31.0
+
+[node name="Lever" type="Node2D"]
+script = ExtResource("1_6u5pb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_efsnh")
+hframes = 2
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_hikuq")
+
+[connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]
+[connection signal="body_shape_exited" from="Area2D" to="." method="_on_area_2d_body_shape_exited"]
