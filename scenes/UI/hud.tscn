@@ -7,9 +7,13 @@ script = ExtResource("1_rd3kb")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="ItemSprite" type="TextureRect" parent="Control"]
 layout_mode = 1
@@ -18,10 +22,21 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 955.0
-offset_top = 483.0
-offset_right = 988.0
-offset_bottom = 516.0
+offset_left = -122.0
+offset_top = -121.0
+offset_right = -72.0
+offset_bottom = -71.0
 grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(1.90687, 1.89414)
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -725.0
+offset_top = 24.0
+offset_right = -30.0
+offset_bottom = 385.0
+grow_horizontal = 0

@@ -1,9 +1,42 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dqv85ce5ari1e"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://dqv85ce5ari1e"]
 
 [ext_resource type="FontFile" uid="uid://baht1mrwwqyva" path="res://Themes/PixelifySans-VariableFont_wght.ttf" id="1_8nt1g"]
 [ext_resource type="StyleBox" uid="uid://biux5y1v2eoi0" path="res://Themes/style_box_slanted.tres" id="2_onwtx"]
+[ext_resource type="Texture2D" uid="uid://mxvlpah4vlo7" path="res://scenes/UI/ui_sprites/ui_panel.png" id="3_0brxi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l4h8s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0brxi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_onwtx"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5isye"]
+texture = ExtResource("3_0brxi")
+texture_margin_left = 15.0
+texture_margin_top = 15.0
+texture_margin_right = 15.0
+texture_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5isye"]
 
 [resource]
 Button/fonts/font = ExtResource("1_8nt1g")
 Button/styles/disabled = ExtResource("2_onwtx")
 Button/styles/normal = ExtResource("2_onwtx")
+CheckBox/colors/font_color = Color(0.4, 0.223529, 0.192157, 1)
+CheckBox/icons/icon = null
+CheckBox/icons/radio_unchecked = null
+CheckBox/icons/radio_unchecked_disabled = null
+CheckBox/icons/unchecked = null
+CheckBox/icons/unchecked_disabled = null
+CheckBox/styles/disabled = SubResource("StyleBoxEmpty_l4h8s")
+CheckBox/styles/normal = SubResource("StyleBoxEmpty_0brxi")
+Label/colors/font_color = Color(0.4, 0.223529, 0.192157, 1)
+Label/fonts/font = ExtResource("1_8nt1g")
+Label/styles/normal = SubResource("StyleBoxEmpty_onwtx")
+Panel/styles/panel = SubResource("StyleBoxTexture_5isye")
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_5isye")

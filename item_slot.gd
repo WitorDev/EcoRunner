@@ -22,6 +22,7 @@ func add_item(item_to_add : Item):
 		tree.root.add_child(item_instance)
 		
 		item = item_to_add
+		get_parent().item = item
 		return
 	
 	item = item_to_add
@@ -48,3 +49,12 @@ func drop_item():
 		tree.root.add_child(item_instance)
 
 		item = null
+		get_parent().item = null
+
+
+func remove_item():
+	if item != null:
+		var HUD = get_tree().get_first_node_in_group("hud")
+		HUD.set_item(null)
+		item = null
+		get_parent().item = null

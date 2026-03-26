@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dp2pbiw0r633u"]
+
+[ext_resource type="Script" uid="uid://blepw0j4rqe6t" path="res://assets/props/go_through_down.gd" id="1_puckv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u8lia"]
+size = Vector2(43, 3)
+
+[node name="GoThroughPlatform" type="StaticBody2D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_puckv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -14.5)
+shape = SubResource("RectangleShape2D_u8lia")
+one_way_collision = true
+one_way_collision_margin = 5.0

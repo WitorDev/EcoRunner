@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid="uid://vgm4dnvbem32"]
+
+[ext_resource type="Script" uid="uid://brcw2h6pajbi7" path="res://quest_ui.gd" id="1_awnib"]
+[ext_resource type="Theme" uid="uid://dqv85ce5ari1e" path="res://Themes/normal.tres" id="2_a14vo"]
+
+[node name="QuestUI" type="Panel"]
+custom_minimum_size = Vector2(0, 150)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 150.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource("2_a14vo")
+script = ExtResource("1_awnib")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = -11.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="StatusCheckbox" type="CheckBox" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+autowrap_mode = 3
+
+[node name="TextLabels" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/TextLabels"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme = ExtResource("2_a14vo")
+theme_override_constants/separation = -80
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/HBoxContainer/TextLabels/VBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "Quest Title Goes Here Like This"
+autowrap_mode = 3
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/HBoxContainer/TextLabels/VBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_a14vo")
+text = "This is the description for the quests. They will show up like this for the player to see"
+autowrap_mode = 3

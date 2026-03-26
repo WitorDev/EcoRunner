@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("1_nts51")
-name = "Battery"
+name = "Garrafa"
 sprite = ExtResource("2_nts51")
 metadata/_custom_type_script = "uid://brnnhs2sts5bl"

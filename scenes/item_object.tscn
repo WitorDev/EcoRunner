@@ -8,7 +8,7 @@ friction = 0.19
 bounce = 0.6
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f60no"]
-size = Vector2(12, 12)
+size = Vector2(8, 12)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7dit1"]
 radius = 13.0384

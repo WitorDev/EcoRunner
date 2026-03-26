@@ -1,10 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://bkugd4flnxskk"]
+[gd_scene load_steps=15 format=3 uid="uid://bkugd4flnxskk"]
 
 [ext_resource type="Texture2D" uid="uid://bg07n08xmp8c5" path="res://scenes/Player/Leco_walking_animation-sheet.png" id="1_he4pj"]
 [ext_resource type="Script" uid="uid://b6ojxrntp4rdl" path="res://scenes/Player/player_movement.gd" id="1_snko7"]
 [ext_resource type="Texture2D" uid="uid://dho4oqc4whifl" path="res://scenes/Player/Leco_jumping_animation-sheet.png" id="3_rnd18"]
 [ext_resource type="Texture2D" uid="uid://b8yhyajx14n22" path="res://scenes/Player/Leco_idle_animation-sheet.png" id="4_g1nig"]
 [ext_resource type="PackedScene" uid="uid://owffykgj8qis" path="res://scenes/ItemSlot/item_slot.tscn" id="5_1fd5w"]
+[ext_resource type="Script" uid="uid://cjaqq1ffw2esm" path="res://scenes/Player/test_camera_script.gd" id="5_xex1p"]
+[ext_resource type="PackedScene" uid="uid://br5o1wo1m73c3" path="res://scenes/quest_manager.tscn" id="6_jim1h"]
+[ext_resource type="AudioStream" uid="uid://yjub4aqdbteg" path="res://sounds/jump.wav" id="8_hbcfx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_snko7"]
 radius = 7.0
@@ -132,6 +135,7 @@ _data = {
 }
 
 [node name="Leco" type="CharacterBody2D" groups=["player"]]
+z_index = 1
 script = ExtResource("1_snko7")
 speed = 90.0
 
@@ -151,5 +155,16 @@ libraries = {
 position = Vector2(-1, 0)
 zoom = Vector2(5, 5)
 position_smoothing_enabled = true
+script = ExtResource("5_xex1p")
 
 [node name="ItemSlot" parent="." instance=ExtResource("5_1fd5w")]
+
+[node name="QuestManager" parent="." instance=ExtResource("6_jim1h")]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_hbcfx")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
