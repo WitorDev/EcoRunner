@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bkugd4flnxskk"]
+[gd_scene format=3 uid="uid://bkugd4flnxskk"]
 
 [ext_resource type="Texture2D" uid="uid://bg07n08xmp8c5" path="res://scenes/Player/Leco_walking_animation-sheet.png" id="1_he4pj"]
 [ext_resource type="Script" uid="uid://b6ojxrntp4rdl" path="res://scenes/Player/player_movement.gd" id="1_snko7"]
@@ -9,8 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://br5o1wo1m73c3" path="res://scenes/quest_manager.tscn" id="6_jim1h"]
 [ext_resource type="AudioStream" uid="uid://yjub4aqdbteg" path="res://sounds/jump.wav" id="8_hbcfx"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_snko7"]
-radius = 7.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hbcfx"]
+size = Vector2(12, 15)
 
 [sub_resource type="Animation" id="Animation_g1nig"]
 length = 0.001
@@ -134,37 +134,35 @@ _data = {
 &"leco_walking": SubResource("Animation_rnd18")
 }
 
-[node name="Leco" type="CharacterBody2D" groups=["player"]]
+[node name="Leco" type="CharacterBody2D" unique_id=2001532906 groups=["player"]]
 z_index = 1
 script = ExtResource("1_snko7")
-speed = 90.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_snko7")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=76511812]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_hbcfx")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=931046969]
 texture = ExtResource("1_he4pj")
 hframes = 3
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_d08e0")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1656585571]
+libraries/ = SubResource("AnimationLibrary_d08e0")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=339259238]
 position = Vector2(-1, 0)
 zoom = Vector2(5, 5)
 position_smoothing_enabled = true
 script = ExtResource("5_xex1p")
 
-[node name="ItemSlot" parent="." instance=ExtResource("5_1fd5w")]
+[node name="ItemSlot" parent="." unique_id=635898240 instance=ExtResource("5_1fd5w")]
 
-[node name="QuestManager" parent="." instance=ExtResource("6_jim1h")]
+[node name="QuestManager" parent="." unique_id=88044570 instance=ExtResource("6_jim1h")]
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=94530066]
 stream = ExtResource("8_hbcfx")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1768907247]
 wait_time = 0.5
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

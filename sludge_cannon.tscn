@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://gyorq5put5ox"]
+
+[ext_resource type="Script" uid="uid://5n5mw1rsvf6e" path="res://sludge_cannon.gd" id="1_njl07"]
+[ext_resource type="Texture2D" uid="uid://bjp311v3umxb7" path="res://characters/Bill Bird/sludge_cannon.png" id="1_uf4fu"]
+[ext_resource type="PackedScene" uid="uid://cv6k0enmf4vik" path="res://scenes/sludge_bullet.tscn" id="2_2oip8"]
+
+[node name="SludgeCannon" type="Node2D"]
+script = ExtResource("1_njl07")
+bullet_scene = ExtResource("2_2oip8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(8, 0)
+texture = ExtResource("1_uf4fu")
+
+[node name="ShootingOrigin" type="Node2D" parent="."]
+position = Vector2(10, 0)

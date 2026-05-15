@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://q52lcwc05t45"]
+
+[ext_resource type="Script" uid="uid://435a1hil0wqu" path="res://characters/character.gd" id="1_54qew"]
+[ext_resource type="Texture2D" uid="uid://b2pdtdyj3ohnq" path="res://characters/Bill Bird/bird.png" id="2_qqr4u"]
+
+[sub_resource type="Animation" id="Animation_3fwhk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_qqr4u"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mdkfl"]
+_data = {
+&"RESET": SubResource("Animation_3fwhk"),
+&"idle": SubResource("Animation_qqr4u")
+}
+
+[node name="Character" type="Node2D"]
+script = ExtResource("1_54qew")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_qqr4u")
+hframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_mdkfl")
+}

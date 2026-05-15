@@ -8,17 +8,29 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="EcoRunner"
 run/main_scene="uid://vhpfx5fsbo7l"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameStateGlobal="*res://game_state.gd"
 
 [display]
 
 window/size/resizable=false
 window/stretch/scale_mode="integer"
+
+[dotnet]
+
+project/assembly_name="EcoRunner"
 
 [global_group]
 
