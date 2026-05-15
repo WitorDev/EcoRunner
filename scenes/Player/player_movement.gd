@@ -7,6 +7,7 @@ extends CharacterBody2D
 var acceleration : float = 0
 var direction
 var jumped : bool = false
+@onready var item_slot := $ItemSlot
 
 @export_category("Horizontal Movement")
 @export var acceleration_speed : float = 1
