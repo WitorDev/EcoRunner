@@ -27,7 +27,7 @@ objective_quest_name = "Limpe a montanha"
 sprite = ExtResource("12_34pwa")
 metadata/_custom_type_script = "uid://yi585wx1osaj"
 
-[node name="Main" type="Node2D" unique_id=1469047862]
+[node name="Items" type="Node2D" unique_id=1469047862]
 metadata/_edit_vertical_guides_ = [-81.0]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1242291203]
