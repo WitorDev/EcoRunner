@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://cwtc5iy8cuf8o"]
+
+[ext_resource type="Script" uid="uid://dpy35cdr3hj25" path="res://configuracoes.gd" id="1_jp04t"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dnuwa"]
+font_size = 36
+
+[node name="Configurações" type="Control" unique_id=570174494]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jp04t")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1056121270]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1965320543]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=770077301]
+layout_mode = 2
+text = "CONFIGURAÇÕES"
+label_settings = SubResource("LabelSettings_dnuwa")
+horizontal_alignment = 1
+
+[node name="Label_volume" type="Label" parent="CenterContainer/VBoxContainer" unique_id=478492301]
+layout_mode = 2
+text = "VOLUME"
+horizontal_alignment = 1
+
+[node name="SliderVolume" type="HSlider" parent="CenterContainer/VBoxContainer" unique_id=1342353793]
+layout_mode = 2
+value = 100.0
+
+[node name="BtnTelaCheia" type="CheckButton" parent="CenterContainer/VBoxContainer" unique_id=855443877]
+layout_mode = 2
+text = "TELA CHEIA"
+
+[node name="BtnVoltar" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1259884246]
+layout_mode = 2
+text = "VOLTAR"
