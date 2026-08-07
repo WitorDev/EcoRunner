@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="Novo Projeto de Jogo"
+run/main_scene="uid://dxjbmk8cofjh1"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Musica="*uid://bkd0xgvf84thw"
 
 [physics]
 
