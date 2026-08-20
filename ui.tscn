@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bvwi44xsm1hdf"]
+
+[ext_resource type="Script" uid="uid://qolcqnvxkrj3" path="res://ui.gd" id="1_fyqef"]
+
+[node name="Control" type="Control" unique_id=1784698702]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UI" type="Control" parent="." unique_id=1803575847]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_fyqef")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="UI" unique_id=1891297447]
+
+[node name="SlotIcon" type="TextureRect" parent="UI/CanvasLayer" unique_id=1207181480]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
