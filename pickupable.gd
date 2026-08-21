@@ -5,6 +5,7 @@ class_name Pickupable
 @export var destroy_on_pickup: bool = true
 
 @onready var prompt_label: Label = $PromptLabel
+@onready var sprite: Sprite2D = $Sprite2D
 
 signal picked_up(item_data: Resource)
 
@@ -13,6 +14,14 @@ func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 	area_exited.connect(_on_area_exited)
 	prompt_label.visible = false
+	_update_sprite()
+
+
+func _update_sprite() -> void:
+	if item_data and item_data.icon:
+		sprite.texture = item_data.icon
+	else:
+		push_warning("Pickupable sem ícone definido em item_data: %s" % name)
 
 
 func _on_area_entered(area: Area2D) -> void:
