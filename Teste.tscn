@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://bemcv5x0seamt"]
 
 [ext_resource type="PackedScene" uid="uid://766jsikflxl" path="res://player.tscn" id="1_imfrb"]
+[ext_resource type="Script" uid="uid://bmuwfthmqsys5" path="res://teste.gd" id="1_l1n5n"]
 [ext_resource type="PackedScene" uid="uid://ccb6o3608pwm2" path="res://pickupable.tscn" id="2_l1n5n"]
 
 [node name="Node2D" type="Node2D" unique_id=1510303882]
+script = ExtResource("1_l1n5n")
 
 [node name="Player" parent="." unique_id=204597494 instance=ExtResource("1_imfrb")]
 position = Vector2(-63, -214)
@@ -12,3 +14,5 @@ position = Vector2(-63, -214)
 
 [node name="Pickupable" parent="." unique_id=893486740 instance=ExtResource("2_l1n5n")]
 position = Vector2(-258, -153)
+
+[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=566670352]
