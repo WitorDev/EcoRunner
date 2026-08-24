@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://qpes6t1agiju"]
+
+[ext_resource type="Script" uid="uid://dagn82m72pttd" path="res://opcoes_menu.gd" id="1_g8qoe"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_rhts7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_06t4h"]
+font_size = 34
+
+[node name="OpcoesMenu" type="Control" unique_id=695981376]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g8qoe")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1903694320]
+modulate = Color(0.4849202, 0.4849202, 0.4849202, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_rhts7")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=50231065]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1140873757]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=584202048]
+modulate = Color(1, 0.89411765, 0, 1)
+self_modulate = Color(1, 0.8235294, 0.047058824, 1)
+layout_mode = 2
+text = "PAUSADO"
+label_settings = SubResource("LabelSettings_06t4h")
+horizontal_alignment = 1
+
+[node name="BtnContinuar" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1521766575]
+layout_mode = 2
+text = "CONTINUAR"
+
+[node name="BtnConfiguracoes" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1836342869]
+layout_mode = 2
+text = "CONFIGURAÇÕES"
+
+[node name="BtnPontuacoes" type="Button" parent="CenterContainer/VBoxContainer" unique_id=331024601]
+layout_mode = 2
+text = "PONTUAÇÃO"
+
+[node name="BtnVoltar" type="Button" parent="CenterContainer/VBoxContainer" unique_id=254233101]
+layout_mode = 2
+text = "VOLTAR AO LOBBY"

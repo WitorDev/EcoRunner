@@ -1,6 +1,7 @@
 extends Control
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	$CenterContainer/VBoxContainer/SliderVolume.value_changed.connect(_on_volume_changed)
 	$CenterContainer/VBoxContainer/BtnTelaCheia.toggled.connect(_on_tela_cheia_toggled)
 	$CenterContainer/VBoxContainer/BtnVoltar.pressed.connect(_on_voltar_pressed)
@@ -19,4 +20,7 @@ func _on_tela_cheia_toggled(ativado: bool):
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _on_voltar_pressed():
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	if get_parent().name == "OpcoesMenu":
+		queue_free()
+	else:
+		get_tree().change_scene_to_file("res://main_menu.tscn")
