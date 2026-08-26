@@ -1,10 +1,11 @@
 [gd_scene format=3 uid="uid://bemcv5x0seamt"]
 
-[ext_resource type="Script" uid="uid://bmuwfthmqsys5" path="res://teste.gd" id="1_l1n5n"]
 [ext_resource type="PackedScene" uid="uid://766jsikflxl" path="res://player.tscn" id="1_imfrb"]
-[ext_resource type="PackedScene" uid="uid://ccb6o3608pwm2" path="res://pickupable.tscn" id="2_l1n5n"]
+[ext_resource type="Script" uid="uid://bmuwfthmqsys5" path="res://teste.gd" id="1_l1n5n"]
+[ext_resource type="PackedScene" uid="uid://bjudtg6j8jr0x" path="res://pickupable.tscn" id="2_l1n5n"]
 [ext_resource type="Resource" uid="uid://buhb8aso1trou" path="res://items/battery.tres" id="3_f4u8r"]
 [ext_resource type="Resource" uid="uid://bj12rk543d3f6" path="res://items/bottle.tres" id="4_cp40k"]
+[ext_resource type="PackedScene" uid="uid://j1jpajaxjija" path="res://mochila.tscn" id="6_igttt"]
 
 [node name="Node2D" type="Node2D" unique_id=1510303882]
 script = ExtResource("1_l1n5n")
@@ -28,3 +29,5 @@ scale = Vector2(1.885, 1.885)
 item_data = ExtResource("3_f4u8r")
 
 [node name="PauseLayer" type="CanvasLayer" parent="." unique_id=566670352]
+
+[node name="mochila" parent="." unique_id=1520624814 instance=ExtResource("6_igttt")]
