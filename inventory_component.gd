@@ -1,73 +1,45 @@
 extends Node
 class_name InventoryComponent
 
-@export var max_slots: int = 20
+## Cena usada pra soltar o item antigo de volta no mapa quando o slot já está ocupado.
+const PICKUPABLE_SCENE: PackedScene = preload("res://pickupable.tscn")
 
+## Quantidade de slots (1 = mochila com um espaço só).
+@export var max_slots: int = 1
+
+## Cada slot: { "data": ItemData, "quantity": int }
 var items: Array[Dictionary] = []
 
 signal inventory_changed
-signal item_rejected(item_data: Resource)
 
 
 func add_item(item_data: Resource, quantity: int = 1) -> bool:
 	if item_data == null or quantity <= 0:
 		return false
 
-	if "stackable" in item_data and item_data.stackable:
-		var slot := _find_stackable_slot(item_data)
-		if slot != -1:
-			var max_stack: int = item_data.max_stack if "max_stack" in item_data else 99
-			var space_left: int = max_stack - items[slot]["quantity"]
-			var to_add: int = min(space_left, quantity)
-
-			items[slot]["quantity"] += to_add
-			quantity -= to_add
-
-			if quantity <= 0:
-				inventory_changed.emit()
-				return true
-
 	if items.size() >= max_slots:
-		item_rejected.emit(item_data)
-		return false
+		_drop_oldest_item()
 
 	items.append({"data": item_data, "quantity": quantity})
 	inventory_changed.emit()
 	return true
 
 
-func remove_item(item_data: Resource, quantity: int = 1) -> bool:
-	var slot := _find_stackable_slot(item_data)
-	if slot == -1:
-		return false
+func get_current_item() -> ItemData:
+	if items.is_empty():
+		return null
+	return items[0]["data"]
 
-	items[slot]["quantity"] -= quantity
 
-	if items[slot]["quantity"] <= 0:
-		items.remove_at(slot)
+func _drop_oldest_item() -> void:
+	var old_slot: Dictionary = items.pop_front()
+	var old_item: Resource = old_slot["data"]
+
+	var pickup := PICKUPABLE_SCENE.instantiate()
+	pickup.item_data = old_item
+
+	var player := get_parent()
+	get_tree().current_scene.add_child(pickup)
+	pickup.global_position = player.global_position
 
 	inventory_changed.emit()
-	return true
-
-
-func has_item(item_data: Resource) -> bool:
-	return _find_stackable_slot(item_data) != -1
-
-
-func get_item_count(item_data: Resource) -> int:
-	var slot := _find_stackable_slot(item_data)
-	if slot == -1:
-		return 0
-	return items[slot]["quantity"]
-
-
-func _find_stackable_slot(item_data: Resource) -> int:
-	var target_id = item_data.item_id if "item_id" in item_data else item_data.resource_path
-
-	for i in items.size():
-		var slot_data = items[i]["data"]
-		var slot_id = slot_data.item_id if "item_id" in slot_data else slot_data.resource_path
-		if slot_id == target_id:
-			return i
-
-	return -1
