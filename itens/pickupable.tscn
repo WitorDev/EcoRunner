@@ -1,15 +1,15 @@
 [gd_scene format=3 uid="uid://bjudtg6j8jr0x"]
 
-[ext_resource type="Script" uid="uid://cl47o5qvesgsp" path="res://pickupable.gd" id="1_ivmqe"]
-[ext_resource type="Script" path="res://item_data.gd" id="2_s0rpe"]
+[ext_resource type="Script" uid="uid://cl47o5qvesgsp" path="res://itens/pickupable.gd" id="1_sx4d3"]
+[ext_resource type="Script" path="res://item_data.gd" id="2_s5qs6"]
 
 [sub_resource type="Resource" id="Resource_s0rpe"]
-script = ExtResource("2_s0rpe")
+script = ExtResource("2_s5qs6")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1hr0u"]
 
 [node name="Pickupable" type="Area2D" unique_id=893486740]
-script = ExtResource("1_ivmqe")
+script = ExtResource("1_sx4d3")
 item_data = SubResource("Resource_s0rpe")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1158623077]
