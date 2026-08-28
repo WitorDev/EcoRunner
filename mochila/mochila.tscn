@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://j1jpajaxjija"]
 
-[ext_resource type="Script" uid="uid://b1oxcnok55do0" path="res://mochila.gd" id="1_ornuf"]
+[ext_resource type="Script" uid="uid://b1oxcnok55do0" path="res://mochila/mochila.gd" id="1_ornuf"]
 
 [node name="mochila" type="CanvasLayer" unique_id=1520624814]
 script = ExtResource("1_ornuf")

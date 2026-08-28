@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://raahptv055t3"]
+
+[ext_resource type="Script" uid="uid://c3108qbq7uunw" path="res://item_generator/item_generator.gd" id="1_hxxrv"]
+[ext_resource type="Texture2D" uid="uid://palak5fk1400" path="res://bottle.png" id="2_epede"]
+
+[node name="Aaa" type="Node2D" unique_id=507888890]
+
+[node name="Node" type="Node" parent="." unique_id=731022101]
+script = ExtResource("1_hxxrv")
+item_name = "BOTTLE"
+item_sprite = ExtResource("2_epede")

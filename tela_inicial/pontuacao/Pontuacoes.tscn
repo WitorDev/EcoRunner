@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://wv4ewcuomg83"]
 
-[ext_resource type="Script" uid="uid://n6lwhab25s8i" path="res://pontucoes.gd" id="1_xhmgk"]
+[ext_resource type="Script" uid="uid://n6lwhab25s8i" path="res://tela_inicial/pontuacao/pontucoes.gd" id="1_xmtl8"]
 
 [node name="Pontuação" type="Control" unique_id=311407316]
 layout_mode = 3
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_xhmgk")
+script = ExtResource("1_xmtl8")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1552146230]
 layout_mode = 1

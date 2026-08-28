@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bvwi44xsm1hdf"]
 
-[ext_resource type="Script" path="res://ui.gd" id="1_fyqef"]
+[ext_resource type="Script" uid="uid://qolcqnvxkrj3" path="res://UI/ui.gd" id="1_2fwl4"]
 
 [node name="Control" type="Control" unique_id=1784698702]
 layout_mode = 3
@@ -14,7 +14,7 @@ grow_vertical = 2
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("1_fyqef")
+script = ExtResource("1_2fwl4")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="UI" unique_id=1891297447]
 
