@@ -1,7 +1,7 @@
 extends Control
 
-var configuracoes = preload("res://configuracoes.tscn")
-var pontuacoes = preload("res://Pontuacoes.tscn")
+var configuracoes = preload("res://tela_inicial/configuracoes/configuracoes.tscn")
+var pontuacoes = preload("res://tela_inicial/pontuacao/Pontuacoes.tscn")
 
 
 func _ready() -> void:
@@ -44,4 +44,4 @@ func _on_btn_pontuacao_pressed() -> void:
 
 func _on_btn_voltar_pressed() -> void:
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	get_tree().change_scene_to_file("res://tela_inicial/main_menu.tscn")

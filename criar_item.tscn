@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://crr5o4yxu2mkt"]
+
+[ext_resource type="Script" uid="uid://c3108qbq7uunw" path="res://item_generator/item_generator.gd" id="1_04tsh"]
+
+[sub_resource type="Resource" id="Resource_ihc73"]
+metadata/__load_path__ = "res://bottle.png"
+
+[node name="Aaa" type="Node2D" unique_id=507888890]
+
+[node name="Node" type="Node" parent="." unique_id=731022101]
+script = ExtResource("1_04tsh")
+item_name = "BOTTLE"
+item_sprite = SubResource("Resource_ihc73")
