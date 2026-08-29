@@ -23,4 +23,4 @@ func _on_voltar_pressed():
 	if get_parent().name == "OpcoesMenu":
 		queue_free()
 	else:
-		get_tree().change_scene_to_file("res://main_menu.tscn")
+		get_tree().change_scene_to_file("res://tela_inicial/main_menu.tscn")

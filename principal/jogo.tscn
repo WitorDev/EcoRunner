@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://bemcv5x0seamt"]
+
+[ext_resource type="Script" uid="uid://bmuwfthmqsys5" path="res://principal/jogo.gd" id="1_3dnqk"]
+[ext_resource type="PackedScene" uid="uid://766jsikflxl" path="res://player/player.tscn" id="2_kfdc3"]
+[ext_resource type="PackedScene" uid="uid://bjudtg6j8jr0x" path="res://itens/pickupable.tscn" id="3_epdqg"]
+[ext_resource type="Resource" uid="uid://bj12rk543d3f6" path="res://resource/bottle.tres" id="4_fb8jm"]
+[ext_resource type="Resource" uid="uid://buhb8aso1trou" path="res://resource/battery.tres" id="5_5jntk"]
+[ext_resource type="PackedScene" uid="uid://j1jpajaxjija" path="res://mochila/mochila.tscn" id="6_mvh5k"]
+
+[node name="Node2D" type="Node2D" unique_id=1510303882]
+script = ExtResource("1_3dnqk")
+
+[node name="Player" parent="." unique_id=204597494 instance=ExtResource("2_kfdc3")]
+position = Vector2(-63, -214)
+
+[node name="Camera2D2" type="Camera2D" parent="Player" unique_id=46463955]
+
+[node name="Pickupable" parent="." unique_id=893486740 instance=ExtResource("3_epdqg")]
+position = Vector2(-258, -153)
+
+[node name="Pickupable2" parent="." unique_id=1818023292 instance=ExtResource("3_epdqg")]
+position = Vector2(205, -169)
+scale = Vector2(1.975, 1.975)
+item_data = ExtResource("4_fb8jm")
+
+[node name="Pickupable3" parent="." unique_id=1234567890 instance=ExtResource("3_epdqg")]
+position = Vector2(-344, -257)
+scale = Vector2(1.885, 1.885)
+item_data = ExtResource("5_5jntk")
+
+[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=566670352]
+
+[node name="mochila" parent="." unique_id=1520624814 instance=ExtResource("6_mvh5k")]

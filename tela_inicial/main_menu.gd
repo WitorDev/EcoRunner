@@ -9,16 +9,15 @@ func _ready() -> void:
 
 
 func _on_btn_jogar_pressed() -> void:
-	get_tree().change_scene_to_file("res://Teste.tscn")
+	get_tree().change_scene_to_file("res://principal/jogo.tscn")
 
 
 func _on_btn_configuracoes_pressed() -> void:
-	get_tree().change_scene_to_file("res://configuracoes.tscn")
+	get_tree().change_scene_to_file("res://tela_inicial/configuracoes/configuracoes.tscn")
 
 
 func _on_btn_pontuacoes_pressed() -> void:
-	get_tree().change_scene_to_file("res://Pontuacoes.tscn")
-
+	get_tree().change_scene_to_file("res://tela_inicial/pontuacao/Pontuacoes.tscn")
 
 func _on_btn_sair_pressed() -> void:
 	get_tree().quit()

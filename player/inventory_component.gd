@@ -2,7 +2,7 @@ extends Node
 class_name InventoryComponent
 
 ## Cena usada pra soltar o item antigo de volta no mapa quando o slot já está ocupado.
-const PICKUPABLE_SCENE: PackedScene = preload("res://pickupable.tscn")
+const PICKUPABLE_SCENE: PackedScene = preload("res://itens/pickupable.tscn")
 
 ## Quantidade de slots (1 = mochila com um espaço só).
 @export var max_slots: int = 1
