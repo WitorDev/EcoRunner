@@ -108,7 +108,7 @@ script = ExtResource("1_i3pqv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=610036929]
 sprite_frames = SubResource("SpriteFrames_rkbax")
-animation = &"idle"
+animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1609431022]
 shape = SubResource("RectangleShape2D_sh265")

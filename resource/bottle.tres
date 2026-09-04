@@ -1,16 +1,10 @@
-[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bj12rk543d3f6"]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://buhb8aso1trou"]
 
-<<<<<<< Updated upstream
-[ext_resource type="Texture2D" uid="uid://cfdtumhkhwqxd" path="res://pixel_art/bottle.png" id="1_nts51"]
-=======
->>>>>>> Stashed changes
-[ext_resource type="Script" path="res://item_data.gd" id="2_u4eyr"]
-
-[sub_resource type="Resource" id="Resource_m7t3u"]
-metadata/__load_path__ = "res://bottle.png"
+[ext_resource type="Texture2D" path="res://pixel_art/battery.png" id="1_cqiva"]
+[ext_resource type="Script" path="res://item_data.gd" id="2_rkp3e"]
 
 [resource]
-script = ExtResource("2_u4eyr")
-item_id = "bottle"
-display_name = "BOTTLE"
-icon = SubResource("Resource_m7t3u")
+script = ExtResource("2_rkp3e")
+item_id = "battery"
+display_name = "BATTERY"
+icon = ExtResource("1_cqiva")
