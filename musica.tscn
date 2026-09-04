@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bkd0xgvf84thw"]
+
+[ext_resource type="AudioStream" uid="uid://epjg34bppcn" path="res://musica/Daft Punk (feat. Julian Casablancas) - Instant Crush [Random Access Memories] - Mysteric (youtube).mp3" id="1_u4ygf"]
+
+[node name="musica" type="AudioStreamPlayer2D" unique_id=1215977703]
+stream = ExtResource("1_u4ygf")
+autoplay = true

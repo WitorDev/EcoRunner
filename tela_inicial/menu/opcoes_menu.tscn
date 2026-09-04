@@ -17,7 +17,7 @@ grow_vertical = 2
 script = ExtResource("1_gar7v")
 
 [node name="Background" type="TextureRect" parent="." unique_id=1903694320]
-modulate = Color(0.4849202, 0.4849202, 0.4849202, 1)
+modulate = Color(0.4862745, 0.4862745, 0.4862745, 0.3019608)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
