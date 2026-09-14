@@ -12,6 +12,8 @@ func _ready():
 
 func _on_voltar_pressed():
 	if get_parent().name == "OpcoesMenu":
+		get_parent().get_node("Background").show()
+		get_parent().get_node("CenterContainer").show()
 		queue_free()
 	else:
 		get_tree().change_scene_to_file("res://main_menu.tscn")

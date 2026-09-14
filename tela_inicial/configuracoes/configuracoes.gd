@@ -21,6 +21,8 @@ func _on_tela_cheia_toggled(ativado: bool):
 
 func _on_voltar_pressed():
 	if get_parent().name == "OpcoesMenu":
+		get_parent().get_node("Background").show()
+		get_parent().get_node("CenterContainer").show()
 		queue_free()
 	else:
 		get_tree().change_scene_to_file("res://tela_inicial/main_menu.tscn")

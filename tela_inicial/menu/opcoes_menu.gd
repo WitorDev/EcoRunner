@@ -31,16 +31,21 @@ func _on_btn_continuar_pressed() -> void:
 
 
 func _on_btn_configuracoes_pressed() -> void:
+	$Background.hide()
+	$CenterContainer.hide()
+
 	var menu = configuracoes.instantiate()
 	add_child(menu)
 	menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 
 func _on_btn_pontuacao_pressed() -> void:
+	$Background.hide()
+	$CenterContainer.hide()
+
 	var menu = pontuacoes.instantiate()
 	add_child(menu)
 	menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-
 
 func _on_btn_voltar_pressed() -> void:
 	get_tree().paused = false

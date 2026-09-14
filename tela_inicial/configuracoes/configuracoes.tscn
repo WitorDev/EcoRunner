@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dpy35cdr3hj25" path="res://tela_inicial/configuracoes/configuracoes.gd" id="1_ghtai"]
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_ghtai"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_dnuwa"]
 font_size = 36
 
@@ -13,6 +15,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ghtai")
+
+[node name="Background" type="TextureRect" parent="." unique_id=437296348]
+modulate = Color(0.42745098, 0.42745098, 0.42745098, 0.8235294)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_ghtai")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1056121270]
 layout_mode = 1

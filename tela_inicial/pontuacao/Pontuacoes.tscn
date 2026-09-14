@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://n6lwhab25s8i" path="res://tela_inicial/pontuacao/pontucoes.gd" id="1_xmtl8"]
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_xmtl8"]
+
 [node name="Pontuação" type="Control" unique_id=311407316]
 layout_mode = 3
 anchors_preset = 15
@@ -10,6 +12,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xmtl8")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=178733026]
+modulate = Color(0.3764706, 0.3764706, 0.3764706, 0.85882354)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("CanvasTexture_xmtl8")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1552146230]
 layout_mode = 1
