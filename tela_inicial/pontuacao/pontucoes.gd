@@ -16,4 +16,4 @@ func _on_voltar_pressed():
 		get_parent().get_node("CenterContainer").show()
 		queue_free()
 	else:
-		get_tree().change_scene_to_file("res://main_menu.tscn")
+		get_tree().change_scene_to_file("res://tela_inicial/main_menu.tscn")

@@ -45,7 +45,7 @@ region = Rect2(64, 0, 32, 32)
 [sub_resource type="SpriteFrames" id="SpriteFrames_rkbax"]
 animations = [{
 "frames": [],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -62,7 +62,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_g6k8r")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 5.0
 }, {
@@ -76,7 +76,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8t03j")
 }],
-"loop": true,
+"loop": 1,
 "name": &"jump",
 "speed": 5.0
 }, {
@@ -93,26 +93,30 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ebec5")
 }],
-"loop": true,
+"loop": 1,
 "name": &"walk",
 "speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sh265"]
+size = Vector2(12, 26)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_onrkg"]
 radius = 20.0
 
 [node name="Player" type="CharacterBody2D" unique_id=204597494]
 script = ExtResource("1_i3pqv")
+jump_velocity = -300.0
+gravity = 1200.0
+max_fall_speed = 1200.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=610036929]
 sprite_frames = SubResource("SpriteFrames_rkbax")
 animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1609431022]
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_sh265")
-disabled = true
 
 [node name="InteractionArea" type="Area2D" parent="." unique_id=1052012033]
 
@@ -123,3 +127,4 @@ shape = SubResource("CircleShape2D_onrkg")
 script = ExtResource("1_4flbx")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1654684605]
+zoom = Vector2(5, 5)
