@@ -9,8 +9,10 @@ const PICKUPABLE_SCENE: PackedScene = preload("res://itens/pickupable.tscn")
 
 ## Cada slot: { "data": ItemData, "quantity": int }
 var items: Array[Dictionary] = []
+var current_item: ItemData = null
 
 signal inventory_changed
+signal item_changed(item: ItemData)
 
 
 func add_item(item_data: Resource, quantity: int = 1) -> bool:
@@ -21,7 +23,8 @@ func add_item(item_data: Resource, quantity: int = 1) -> bool:
 		_drop_oldest_item()
 
 	items.append({"data": item_data, "quantity": quantity})
-	inventory_changed.emit()
+	current_item = get_current_item()
+	_emit_inventory_changed()
 	return true
 
 
@@ -31,7 +34,16 @@ func get_current_item() -> ItemData:
 	return items[0]["data"]
 
 
+func _emit_inventory_changed() -> void:
+	current_item = get_current_item()
+	inventory_changed.emit()
+	item_changed.emit(current_item)
+
+
 func _drop_oldest_item() -> void:
+	if items.is_empty():
+		return
+
 	var old_slot: Dictionary = items.pop_front()
 	var old_item: Resource = old_slot["data"]
 
@@ -39,7 +51,11 @@ func _drop_oldest_item() -> void:
 	pickup.item_data = old_item
 
 	var player := get_parent()
-	get_tree().current_scene.add_child(pickup)
-	pickup.global_position = player.global_position
+	if player != null and is_instance_valid(player):
+		get_tree().current_scene.add_child(pickup)
+		pickup.global_position = player.global_position
+	else:
+		get_tree().current_scene.add_child(pickup)
+		pickup.global_position = Vector2.ZERO
 
-	inventory_changed.emit()
+	_emit_inventory_changed()

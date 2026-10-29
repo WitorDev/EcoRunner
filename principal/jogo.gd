@@ -11,6 +11,22 @@ func _ready() -> void:
 	# Faz este nó continuar recebendo input mesmo com o jogo pausado,
 	# senão não dá pra fechar o menu de pausa depois de abrir.
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_setup_default_tasks()
+
+
+func _setup_default_tasks() -> void:
+	var player := get_node_or_null("Player") as Player
+	if player == null:
+		return
+
+	if not player.has_task("Coletar resíduos"):
+		player.add_task(Task.new("Coletar resíduos", "Encontre os itens recicláveis no mapa e entregue na estação."))
+
+	if not player.has_task("Limpar a floresta"):
+		player.add_task(Task.new("Limpar a floresta", "Remova os resíduos que estão poluindo a área natural."))
+
+	if not player.has_task("Plantar árvores"):
+		player.add_task(Task.new("Plantar árvores", "Ajude a restaurar a vegetação da região."))
 
 
 func _input(event: InputEvent) -> void:
