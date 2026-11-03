@@ -36,12 +36,43 @@ func add_task(task_data: Task) -> Task:
 	if existing_task != null:
 		if not existing_task.is_done and task_data.is_done:
 			existing_task.is_done = true
+		_refresh_global_task_progress()
 		tasks_changed.emit()
 		return existing_task
 
 	tasks.append(task_data)
+	_refresh_global_task_progress()
 	tasks_changed.emit()
 	return task_data
+
+
+func add_new_task(task_name: String, description: String = "") -> Task:
+	if task_name.strip_edges() == "":
+		push_warning("Task name cannot be empty.")
+		return null
+
+	if has_task(task_name):
+		return get_task(task_name)
+
+	var new_task := Task.new(task_name, description)
+	var added_task := add_task(new_task)
+	if added_task != null:
+		var task_added_signal: Signal = Signal(self, "tasks_changed")
+		if task_added_signal != null:
+			pass
+	return added_task
+
+
+func give_task_from_character(character: Node, task_name: String, description: String = "") -> bool:
+	if character == null:
+		return false
+	if task_name.strip_edges() == "":
+		return false
+	if has_task(task_name):
+		return false
+
+	add_new_task(task_name, description)
+	return true
 
 
 func get_task(task_name_to_find: String) -> Task:
@@ -61,8 +92,50 @@ func finish_task(task_name_to_finish: String) -> bool:
 		return false
 
 	task.is_done = true
+	_refresh_global_task_progress()
 	tasks_changed.emit()
 	return true
+
+
+func try_complete_task_from_inventory(task_name_to_finish: String) -> bool:
+	var task := get_task(task_name_to_finish)
+	if task == null or task.is_done:
+		return false
+	if task.required_item_id == "":
+		return false
+	if inventory == null:
+		return false
+	if not inventory.has_item(task.required_item_id, task.required_quantity):
+		return false
+	if not inventory.remove_item(task.required_item_id, task.required_quantity):
+		return false
+
+	task.is_done = true
+	_refresh_global_task_progress()
+	tasks_changed.emit()
+	return true
+
+
+func _refresh_global_task_progress() -> void:
+	if not is_inside_tree():
+		return
+	if Global == null:
+		return
+	Global.total_tasks = max(5, tasks.size())
+	var completed_count: int = 0
+	for task in tasks:
+		if task != null and task.is_done:
+			completed_count += 1
+	Global.completed_tasks = completed_count
+	Global.tasks_progress_changed.emit(Global.completed_tasks, Global.total_tasks)
+
+
+func get_completed_task_count() -> int:
+	var count: int = 0
+	for task in tasks:
+		if task != null and task.is_done:
+			count += 1
+	return count
 
 
 func get_active_tasks() -> Array[Task]:
@@ -109,7 +182,8 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-	if Input.is_action_just_pressed("interagir"):
+	if Input.is_action_just_pressed("interact"):
+		print("[Player] ação interact pressionada. itens_perto=%s" % nearby_pickupables.size())
 		_try_pickup()
 
 	_update_animation(move_input)
@@ -145,8 +219,10 @@ func _on_interaction_area_exited(area: Area2D) -> void:
 
 func _try_pickup() -> void:
 	if nearby_pickupables.is_empty():
+		print("[Player] tentou pegar item, mas não há itens próximos.")
 		return
 
 	var item := nearby_pickupables[0]
+	print("[Player] tentando pegar item: %s" % item.name)
 	item.interact(self)
 	nearby_pickupables.erase(item)

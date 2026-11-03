@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://b8x0ctt0j5i0h"]
+
+[ext_resource type="Script" path="res://task_station/ComponentStation.gd" id="1_4v3gp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+
+[node name="ComponentStation" type="Node2D"]
+script = ExtResource("1_4v3gp")
+task_name = "Coletar garrafa"
+task_description = "Entregue a garrafa reciclável na estação."
+required_item_id = "bottle"
+required_quantity = 1
+interaction_radius = 40.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_1")

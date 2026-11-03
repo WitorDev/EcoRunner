@@ -28,6 +28,49 @@ func add_item(item_data: Resource, quantity: int = 1) -> bool:
 	return true
 
 
+func has_item(item_id: String, quantity: int = 1) -> bool:
+	if item_id.strip_edges() == "":
+		return false
+
+	var total_quantity: int = 0
+	for slot in items:
+		var data: ItemData = slot.get("data") as ItemData
+		if data != null and data.item_id == item_id:
+			total_quantity += int(slot.get("quantity", 1))
+
+	return total_quantity >= quantity
+
+
+func remove_item(item_id: String, quantity: int = 1) -> bool:
+	if item_id.strip_edges() == "":
+		return false
+	if not has_item(item_id, quantity):
+		return false
+
+	var remaining_to_remove: int = quantity
+	for index in range(items.size() - 1, -1, -1):
+		var slot: Dictionary = items[index]
+		var data: ItemData = slot.get("data") as ItemData
+		if data == null or data.item_id != item_id:
+			continue
+
+		var slot_quantity: int = int(slot.get("quantity", 1))
+		var taken: int = min(slot_quantity, remaining_to_remove)
+		var new_quantity: int = slot_quantity - taken
+		if new_quantity <= 0:
+			items.remove_at(index)
+		else:
+			slot["quantity"] = new_quantity
+			items[index] = slot
+
+		remaining_to_remove -= taken
+		if remaining_to_remove <= 0:
+			break
+
+	_emit_inventory_changed()
+	return true
+
+
 func get_current_item() -> ItemData:
 	if items.is_empty():
 		return null

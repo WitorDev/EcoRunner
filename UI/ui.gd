@@ -9,14 +9,26 @@ extends Control
 @export_range(0.0, 1.0) var disabled_opacity: float = 0.3
 @export_range(0.0, 1.0) var active_opacity: float = 1.0
 
+var task_panel: PanelContainer
 var task_list: VBoxContainer
 var player: Player
+var task_notification: Label
+var notification_timer: float = 0.0
 
 
 func _ready() -> void:
-	_setup_task_list()
+	_setup_task_notification()
 	_bind_player()
 	_update_slot_ui(null)
+	_find_task_panel()
+	_set_task_panel_visible(false)
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("tasks"):
+		print("[UI] tecla de tarefas pressionada. task_panel_valid=%s" % (task_panel != null))
+		_toggle_task_panel()
+		print("[UI] painel de tarefas visível=%s" % (task_panel.visible if task_panel != null else false))
 
 
 func _bind_player() -> void:
@@ -27,7 +39,7 @@ func _bind_player() -> void:
 	player = player_node as Player
 	if player != null:
 		if player.has_signal("tasks_changed"):
-			player.tasks_changed.connect(_refresh_task_ui)
+			player.tasks_changed.connect(_on_tasks_changed)
 		if player.has_node("InventoryComponent"):
 			inventory = player.get_node("InventoryComponent") as InventoryComponent
 			if inventory != null and inventory.has_signal("item_changed"):
@@ -36,25 +48,65 @@ func _bind_player() -> void:
 		_refresh_task_ui()
 
 
-func _setup_task_list() -> void:
-	if task_list != null and is_instance_valid(task_list):
+func _on_tasks_changed() -> void:
+	_refresh_task_ui()
+	if player != null:
+		var last_task: Task = player.get_active_tasks().back() if not player.get_active_tasks().is_empty() else null
+		if last_task != null:
+			_show_task_notification("Tarefa: %s adicionada ao quadro" % last_task.task_name)
+
+
+func _find_task_panel() -> void:
+	task_panel = get_node_or_null("CanvasLayer/TaskPanel") as PanelContainer
+	if task_panel == null:
 		return
 
-	task_list = VBoxContainer.new()
-	task_list.name = "TaskList"
-	task_list.position = Vector2(20, 20)
-	task_list.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	add_child(task_list)
+	task_list = task_panel.get_node_or_null("TaskList") as VBoxContainer
+	_refresh_task_ui()
 
-	var title := Label.new()
-	title.name = "TaskTitle"
-	title.text = "MISSÕES"
-	title.modulate = Color(1, 0.9, 0.3, 1)
-	title.add_theme_font_size_override("font_size", 20)
-	task_list.add_child(title)
+
+func _setup_task_notification() -> void:
+	task_notification = Label.new()
+	task_notification.name = "TaskNotification"
+	task_notification.visible = false
+	task_notification.modulate = Color(1.0, 0.95, 0.4, 1.0)
+	task_notification.add_theme_font_size_override("font_size", 18)
+	task_notification.position = Vector2(20, 220)
+	add_child(task_notification)
+
+
+func _show_task_notification(message: String) -> void:
+	if task_notification == null:
+		return
+	task_notification.text = message
+	task_notification.visible = true
+	notification_timer = 2.2
+
+
+func _process(delta: float) -> void:
+	if notification_timer > 0.0:
+		notification_timer -= delta
+		if notification_timer <= 0.0 and task_notification != null:
+			task_notification.visible = false
+
+
+func _toggle_task_panel() -> void:
+	if task_panel == null or not is_instance_valid(task_panel):
+		return
+	_set_task_panel_visible(not task_panel.visible)
+
+
+func _set_task_panel_visible(is_visible: bool) -> void:
+	if task_panel == null or not is_instance_valid(task_panel):
+		return
+	task_panel.visible = is_visible
+	_refresh_task_ui()
 
 
 func _refresh_task_ui() -> void:
+	if task_panel == null or not is_instance_valid(task_panel):
+		return
+
 	if task_list == null or not is_instance_valid(task_list):
 		return
 

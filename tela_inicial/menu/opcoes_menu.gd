@@ -1,13 +1,13 @@
 extends Control
 
-var configuracoes = preload("res://tela_inicial/configuracoes/configuracoes.tscn")
-var pontuacoes = preload("res://tela_inicial/pontuacao/Pontuacoes.tscn")
+var configuracoes: PackedScene = preload("res://tela_inicial/configuracoes/configuracoes.tscn")
+var pontuacoes: PackedScene = preload("res://tela_inicial/pontuacao/Pontuacoes.tscn")
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 
-	var container = $CenterContainer/VBoxContainer
+	var container: VBoxContainer = $CenterContainer/VBoxContainer
 
 	for botao in container.get_children():
 		if botao is Button:
@@ -34,7 +34,7 @@ func _on_btn_configuracoes_pressed() -> void:
 	$Background.hide()
 	$CenterContainer.hide()
 
-	var menu = configuracoes.instantiate()
+	var menu: Control = configuracoes.instantiate()
 	add_child(menu)
 	menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
@@ -43,7 +43,7 @@ func _on_btn_pontuacao_pressed() -> void:
 	$Background.hide()
 	$CenterContainer.hide()
 
-	var menu = pontuacoes.instantiate()
+	var menu: Control = pontuacoes.instantiate()
 	add_child(menu)
 	menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
