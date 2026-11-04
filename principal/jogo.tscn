@@ -23,10 +23,10 @@ description = "bottleeee"
 
 [sub_resource type="Resource" id="Resource_75htp"]
 script = ExtResource("9_0yqbc")
-task_name = "bottle"
+task_name = "bottless "
 description = "bottle
 "
-required_item_id = "bottle "
+required_item_id = "bottle"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_uu8s3"]
@@ -44,9 +44,9 @@ metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_udpx2"]
 script = ExtResource("9_0yqbc")
-task_name = "balls"
+task_name = "sssss "
 description = "get the ballss"
-required_item_id = "balls "
+required_item_id = "balls"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_i7pil"]
@@ -65,14 +65,14 @@ description = "dudeeeeee"
 
 [sub_resource type="Resource" id="Resource_ocqjj"]
 script = ExtResource("9_0yqbc")
-task_name = "dude"
+task_name = "dudess "
 description = "get the dude				"
 required_item_id = "dude"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_0yqbc"]
 script = ExtResource("9_0yqbc")
-task_name = "bottle2"
+task_name = "bottle2ss"
 description = "get the ballss222"
 required_item_id = "bottle2"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
