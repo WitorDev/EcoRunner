@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
-@export var task_name: String = "Falar com o NPC"
-@export var task_description: String = "Vá até o NPC e aceite a missão."
+@export var task_data: Task
 @export var interaction_radius: float = 30.0
 @export var can_repeat_task: bool = false
 @export var sprite_sheet: Texture2D
@@ -121,23 +120,31 @@ func _on_body_exited(body: Node) -> void:
 		nearby_player = null
 
 
+func _ensure_task_resource() -> Task:
+	if task_data == null:
+		task_data = Task.create("", "")
+	return task_data
+
+
 func give_task_to_player(player: Player) -> bool:
 	if player == null:
 		print("[NPC] tentativa de entregar tarefa sem player válido.")
 		return false
-	if task_name.strip_edges() == "":
+
+	var task_template := _ensure_task_resource().clone()
+	if task_template.task_name.strip_edges() == "":
 		print("[NPC] tarefa vazia, não foi entregue.")
 		return false
-	if player.has_method("has_task") and player.has_task(task_name) and not can_repeat_task:
-		print("[NPC] tarefa '%s' já existe para o jogador e não pode repetir." % task_name)
+	if player.has_method("has_task") and player.has_task(task_template.task_name) and not can_repeat_task:
+		print("[NPC] tarefa '%s' já existe para o jogador e não pode repetir." % task_template.task_name)
 		return false
 	if player.has_method("add_new_task"):
-		print("[NPC] entregando tarefa '%s' para o player." % task_name)
-		player.add_new_task(task_name, task_description)
+		print("[NPC] entregando tarefa '%s' para o player." % task_template.task_name)
+		player.add_new_task(task_template)
 		return true
 	if player.has_method("add_task"):
-		print("[NPC] entregando tarefa '%s' via add_task()." % task_name)
-		player.add_task(Task.new(task_name, task_description))
+		print("[NPC] entregando tarefa '%s' via add_task()." % task_template.task_name)
+		player.add_task(task_template)
 		return true
 	print("[NPC] player não possui add_new_task nem add_task().")
 	return false

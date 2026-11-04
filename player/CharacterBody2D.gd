@@ -21,11 +21,46 @@ var nearby_pickupables: Array[Pickupable] = []
 var tasks: Array[Task] = []
 var coyote_timer: float = 0.0
 var jump_buffer_timer: float = 0.0
+var speech_label: Label
+var speech_timer: float = 0.0
 
 func _ready() -> void:
 	add_to_group("player")
+	_setup_speech_label()
 	interaction_area.area_entered.connect(_on_interaction_area_entered)
 	interaction_area.area_exited.connect(_on_interaction_area_exited)
+
+
+func _setup_speech_label() -> void:
+	speech_label = Label.new()
+	speech_label.name = "SpeechLabel"
+	speech_label.visible = false
+	speech_label.position = Vector2(-60, -56)
+	speech_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	speech_label.modulate = Color(1.0, 0.95, 0.7, 1.0)
+	speech_label.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var speech_settings := LabelSettings.new()
+	speech_settings.font_size = 8
+	speech_settings.font_color = speech_label.modulate
+	speech_label.label_settings = speech_settings
+	add_child(speech_label)
+
+
+func show_speech_message(message: String, duration: float = 1.5) -> void:
+	if speech_label == null:
+		return
+	if message.strip_edges() == "":
+		return
+	speech_label.text = message
+	speech_label.visible = true
+	speech_timer = max(0.0, duration)
+
+
+func _process(delta: float) -> void:
+	if speech_timer > 0.0:
+		speech_timer -= delta
+		if speech_timer <= 0.0 and speech_label != null:
+			speech_label.visible = false
 
 
 func add_task(task_data: Task) -> Task:
@@ -46,16 +81,24 @@ func add_task(task_data: Task) -> Task:
 	return task_data
 
 
-func add_new_task(task_name: String, description: String = "") -> Task:
-	if task_name.strip_edges() == "":
-		push_warning("Task name cannot be empty.")
-		return null
+func add_new_task(task_name_or_resource, description: String = "", required_item_id: String = "", required_quantity: int = 1) -> Task:
+	var resolved_task: Task
 
-	if has_task(task_name):
-		return get_task(task_name)
+	if task_name_or_resource is Task:
+		resolved_task = task_name_or_resource
+	else:
+		var task_name_value: String = String(task_name_or_resource)
+		if task_name_value.strip_edges() == "":
+			push_warning("Task name cannot be empty.")
+			return null
+		if has_task(task_name_value):
+			return get_task(task_name_value)
+		resolved_task = Task.create(task_name_value, description, false, required_item_id, required_quantity)
 
-	var new_task := Task.new(task_name, description)
-	var added_task := add_task(new_task)
+	if has_task(resolved_task.task_name):
+		return get_task(resolved_task.task_name)
+
+	var added_task := add_task(resolved_task)
 	if added_task != null:
 		var task_added_signal: Signal = Signal(self, "tasks_changed")
 		if task_added_signal != null:
@@ -80,6 +123,53 @@ func get_task(task_name_to_find: String) -> Task:
 		if task != null and task.task_name == task_name_to_find:
 			return task
 	return null
+
+
+func get_tasks_by_required_item_id(item_id: String) -> Array[Task]:
+	var matching_tasks: Array[Task] = []
+	if item_id.strip_edges() == "":
+		return matching_tasks
+	for task in tasks:
+		if task != null and task.required_item_id == item_id and not task.is_done:
+			matching_tasks.append(task)
+	return matching_tasks
+
+
+func get_task_by_required_item_id(item_id: String) -> Task:
+	if item_id.strip_edges() == "":
+		return null
+	for task in tasks:
+		if task != null and task.required_item_id == item_id:
+			return task
+	return null
+
+
+func complete_task_for_item_id(item_id: String) -> bool:
+	if item_id.strip_edges() == "":
+		return false
+	if inventory == null:
+		return false
+
+	var matching_tasks := get_tasks_by_required_item_id(item_id)
+	if matching_tasks.is_empty():
+		return false
+
+	var completed_any: bool = false
+	for task in matching_tasks:
+		if task == null or task.is_done:
+			continue
+		if not inventory.has_item(task.required_item_id, task.required_quantity):
+			continue
+		if not inventory.remove_item(task.required_item_id, task.required_quantity):
+			continue
+		task.is_done = true
+		completed_any = true
+
+	if completed_any:
+		_refresh_global_task_progress()
+		tasks_changed.emit()
+		return true
+	return false
 
 
 func has_task(task_name_to_find: String) -> bool:

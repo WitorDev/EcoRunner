@@ -9,10 +9,16 @@
 [ext_resource type="Resource" uid="uid://buhb8aso1trou" path="res://resource/bottle.tres" id="5_5jntk"]
 [ext_resource type="PackedScene" uid="uid://j1jpajaxjija" path="res://mochila/mochila.tscn" id="6_mvh5k"]
 [ext_resource type="PackedScene" uid="uid://b3r5r0co4fumi" path="res://NPC.tscn" id="8_fb8jm"]
+[ext_resource type="Script" uid="uid://cqukjd8w3lcby" path="res://task/Task.gd" id="9_0yqbc"]
 [ext_resource type="Texture2D" uid="uid://dkj0wnv8wkyvl" path="res://pixel_art/lontra.png" id="9_5jntk"]
 [ext_resource type="Texture2D" uid="uid://clvqnxy1is2qd" path="res://trash-station.png" id="11_mvh5k"]
 
-[node name="Node2D" type="Node2D" unique_id=1510303882]
+[sub_resource type="Resource" id="Resource_0yqbc"]
+script = ExtResource("9_0yqbc")
+required_item_id = "bottle"
+metadata/_custom_type_script = "uid://cqukjd8w3lcby"
+
+[node name="Node2D2" type="Node2D" unique_id=1510303882]
 script = ExtResource("1_3dnqk")
 
 [node name="Player" parent="." unique_id=204597494 instance=ExtResource("2_kfdc3")]
@@ -42,9 +48,9 @@ position = Vector2(-63, -147)
 
 [node name="NPC" parent="." unique_id=1187715289 instance=ExtResource("8_fb8jm")]
 position = Vector2(37, -174)
+task_data = SubResource("Resource_0yqbc")
 sprite_sheet = ExtResource("9_5jntk")
 
 [node name="ComponentStation" parent="." unique_id=127876133 instance=ExtResource("2_5jntk")]
 position = Vector2(68, -193)
 sprite_sheet = ExtResource("11_mvh5k")
-frame_size = Vector2i(64, 64)

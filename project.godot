@@ -15,13 +15,13 @@ run/main_scene="uid://dxjbmk8cofjh1"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://pixel_art/icon.svg"
 
-[dotnet]
-
-project/assembly_name="Novo Projeto de Jogo"
-
 [autoload]
 
 Global="*res://global.gd"
+
+[dotnet]
+
+project/assembly_name="Novo Projeto de Jogo"
 
 [input]
 

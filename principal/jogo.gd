@@ -9,13 +9,11 @@ var pause_menu_instance: Control = null
 
 
 func _ready() -> void:
-	# Faz este nó continuar recebendo input mesmo com o jogo pausado,
-	# senão não dá pra fechar o menu de pausa depois de abrir.
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	if Global != null:
 		Global.set_total_tasks(5)
 	_ensure_ui_is_loaded()
-	_setup_default_tasks()
+	_refresh_global_task_count()
 
 
 func _ensure_ui_is_loaded() -> void:
@@ -28,28 +26,12 @@ func _ensure_ui_is_loaded() -> void:
 	print("[Game] UI instantiated and added to the scene.")
 
 
-func _setup_default_tasks() -> void:
+func _refresh_global_task_count() -> void:
 	var player := get_node_or_null("Player") as Player
 	if player == null:
 		return
-
-	if not player.has_task("Coletar garrafa"):
-		player.add_task(Task.new("Coletar garrafa", "Entregue a garrafa reciclável na estação.", false, "bottle", 1))
-
-	if not player.has_task("Coletar bateria"):
-		player.add_task(Task.new("Coletar bateria", "Entregue a bateria usada na estação.", false, "battery", 1))
-
-	if not player.has_task("Coletar resíduos"):
-		player.add_task(Task.new("Coletar resíduos", "Encontre os itens recicláveis no mapa e entregue na estação."))
-
-	if not player.has_task("Limpar a floresta"):
-		player.add_task(Task.new("Limpar a floresta", "Remova os resíduos que estão poluindo a área natural."))
-
-	if not player.has_task("Plantar árvores"):
-		player.add_task(Task.new("Plantar árvores", "Ajude a restaurar a vegetação da região."))
-
 	if Global != null:
-		Global.total_tasks = max(5, player.tasks.size())
+		Global.total_tasks = max(1, player.tasks.size())
 		Global.completed_tasks = player.get_completed_task_count() if player.has_method("get_completed_task_count") else 0
 
 

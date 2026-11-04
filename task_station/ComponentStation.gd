@@ -1,9 +1,7 @@
 extends Node2D
 class_name ComponentStation
 
-@export var task_name: String = "Coletar garrafa"
-@export var task_description: String = "Entregue a garrafa reciclável na estação."
-@export var required_item_id: String = "bottle"
+@export var required_item_id: String = ""
 @export var required_quantity: int = 1
 @export var interaction_radius: float = 40.0
 @export var sprite_sheet: Texture2D
@@ -129,72 +127,70 @@ func _input(event: InputEvent) -> void:
 		try_complete_task(nearby_player)
 
 
-func assign_task_to_player(player: Player) -> bool:
-	if player == null:
-		return false
-	if task_name.strip_edges() == "":
-		return false
-	if player.has_method("has_task") and player.has_task(task_name):
-		return true
-	if player.has_method("add_new_task"):
-		player.add_new_task(task_name, task_description)
-		return true
-	if player.has_method("add_task"):
-		player.add_task(Task.new(task_name, task_description, false, required_item_id, required_quantity))
-		return true
-	return false
-
-
 func try_complete_task(player: Player) -> bool:
 	if player == null:
 		return false
-	if not assign_task_to_player(player):
+	if required_item_id.strip_edges() == "":
+		print("[ComponentStation] estação sem required_item_id configurado.")
+		if player.has_method("show_speech_message"):
+			player.show_speech_message("Essa estação não tem tarefa.")
 		return false
-
-	var task: Task = null
-	if player.has_method("get_task"):
-		task = player.get_task(task_name)
-	if task == null:
-		return false
-	if task.is_done:
-		_update_visual_state()
-		return false
-
-	if required_item_id != "":
-		var inventory := player.get_node_or_null("InventoryComponent") as InventoryComponent
-		if inventory == null:
-			print("[ComponentStation] jogador sem InventoryComponent.")
+	if player.has_method("get_tasks_by_required_item_id"):
+		var matching_tasks := player.get_tasks_by_required_item_id(required_item_id)
+		if matching_tasks.is_empty():
+			print("[ComponentStation] nenhum item ativo para '%s' nesta estação." % required_item_id)
+			if player.has_method("show_speech_message"):
+				player.show_speech_message("Ainda não tenho uma tarefa para isso.")
 			return false
-		if not inventory.has_item(required_item_id, required_quantity):
-			print("[ComponentStation] item requerido ausente: %s" % required_item_id)
-			return false
-		if not inventory.remove_item(required_item_id, required_quantity):
-			print("[ComponentStation] não foi possível remover o item do inventário.")
-			return false
-
-	if player.has_method("finish_task"):
-		player.finish_task(task_name)
-		_update_visual_state()
-		if Global != null:
-			Global.register_completed_task(task_name)
-		print("[ComponentStation] tarefa concluída: %s" % task_name)
-		return true
-
+	if player.has_method("complete_task_for_item_id"):
+		var completed := player.complete_task_for_item_id(required_item_id)
+		_update_visual_state(player)
+		if completed:
+			print("[ComponentStation] tarefa concluída pelo item: %s" % required_item_id)
+		else:
+			print("[ComponentStation] item '%s' está no inventário, mas não corresponde a uma tarefa ativa." % required_item_id)
+			if player.has_method("show_speech_message"):
+				player.show_speech_message("Esse item não está na minha missão.")
+		return completed
+	print("[ComponentStation] jogador não possui complete_task_for_item_id().")
+	if player.has_method("show_speech_message"):
+		player.show_speech_message("Não consigo usar isso agora.")
 	return false
 
 
-func _update_visual_state() -> void:
+func _update_visual_state(player: Player = null) -> void:
 	if sprite == null:
 		return
-	_set_visual_state(_is_done_for_current_player())
+	if player == null:
+		player = nearby_player
+	if player == null and get_tree() != null:
+		player = get_tree().get_first_node_in_group("player") as Player
+	var is_done := false
+	if player != null and required_item_id.strip_edges() != "":
+		if player.has_method("get_task_by_required_item_id"):
+			var task: Task = player.get_task_by_required_item_id(required_item_id)
+			is_done = task != null and task.is_done
+		elif player.has_method("get_tasks_by_required_item_id"):
+			var matching_tasks := player.get_tasks_by_required_item_id(required_item_id)
+			if matching_tasks.is_empty():
+				for task in player.tasks:
+					if task != null and task.required_item_id == required_item_id:
+						is_done = task.is_done
+						break
+	_set_visual_state(is_done)
 
 
 func _is_done_for_current_player() -> bool:
-	if nearby_player == null:
+	if required_item_id.strip_edges() == "":
 		return false
-	if not nearby_player.has_method("get_task"):
+	var player_to_check := nearby_player
+	if player_to_check == null and get_tree() != null:
+		player_to_check = get_tree().get_first_node_in_group("player") as Player
+	if player_to_check == null:
 		return false
-	var task: Task = nearby_player.get_task(task_name)
-	if task == null:
-		return false
-	return task.is_done
+	if player_to_check.has_method("get_task_by_required_item_id"):
+		var task: Task = player_to_check.get_task_by_required_item_id(required_item_id)
+		if task == null:
+			return false
+		return task.is_done
+	return false
