@@ -2,6 +2,7 @@ extends Node
 
 var completed_tasks: int = 0
 var total_tasks: int = 5
+var last_survival_time: float = 0.0
 
 signal tasks_progress_changed(completed: int, total: int)
 

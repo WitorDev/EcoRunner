@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 signal tasks_changed
+signal health_changed(current: int, maximum: int)
 
 @export var speed: float = 200.0
 @export var acceleration: float = 1800.0
@@ -12,11 +13,15 @@ signal tasks_changed
 @export var coyote_time: float = 0.12
 @export var jump_buffer_time: float = 0.12
 @export var jump_cutoff: float = 0.25
+@export_range(1, 20, 1) var max_health: int = 5
 
 @onready var inventory: InventoryComponent = $InventoryComponent
 @onready var interaction_area: Area2D = $InteractionArea
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+var health: int
+var is_dead: bool = false
+var survival_time: float = 0.0
 var nearby_pickupables: Array[Pickupable] = []
 var tasks: Array[Task] = []
 var coyote_timer: float = 0.0
@@ -24,6 +29,8 @@ var jump_buffer_timer: float = 0.0
 
 func _ready() -> void:
 	add_to_group("player")
+	health = max_health
+	health_changed.emit(health, max_health)
 	interaction_area.area_entered.connect(_on_interaction_area_entered)
 	interaction_area.area_exited.connect(_on_interaction_area_exited)
 
@@ -147,6 +154,10 @@ func get_active_tasks() -> Array[Task]:
 
 
 func _physics_process(delta: float) -> void:
+	if is_dead:
+		return
+
+	survival_time += delta
 	var move_input := Input.get_axis("left", "right")
 	var is_jump_pressed := Input.is_action_pressed("pular")
 
@@ -187,6 +198,28 @@ func _physics_process(delta: float) -> void:
 		_try_pickup()
 
 	_update_animation(move_input)
+
+
+func take_damage(amount: int) -> void:
+	if is_dead or amount <= 0:
+		return
+
+	health = maxi(health - amount, 0)
+	health_changed.emit(health, max_health)
+	if health == 0:
+		_die()
+
+
+func _die() -> void:
+	is_dead = true
+	velocity = Vector2.ZERO
+	animated_sprite.stop()
+	set_physics_process(false)
+	Global.last_survival_time = survival_time
+
+	var error := get_tree().change_scene_to_file("res://tela_conclusao.tscn")
+	if error != OK:
+		push_error("Não foi possível abrir a tela de conclusão. Código: %s" % error)
 
 
 func _update_animation(direction: float) -> void:

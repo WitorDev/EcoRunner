@@ -14,6 +14,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	if Global != null:
 		Global.set_total_tasks(5)
+		Global.last_survival_time = 0.0
 	_ensure_ui_is_loaded()
 	_setup_default_tasks()
 
