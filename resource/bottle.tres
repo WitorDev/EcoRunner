@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://buhb8aso1trou"]
 
-[ext_resource type="Texture2D" uid="uid://bauqm6t5puy2l" path="res://pixel_art/battery.png" id="1_cqiva"]
+[ext_resource type="Texture2D" uid="uid://cfdtumhkhwqxd" path="res://pixel_art/bottle.png" id="1_250cs"]
 [ext_resource type="Script" uid="uid://c8vuhdnx6hn8q" path="res://item_data.gd" id="2_rkp3e"]
 
 [resource]
 script = ExtResource("2_rkp3e")
 item_id = "battery"
 display_name = "BATTERY"
-icon = ExtResource("1_cqiva")
+icon = ExtResource("1_250cs")

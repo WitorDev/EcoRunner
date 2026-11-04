@@ -211,13 +211,11 @@ func _refresh_global_task_progress() -> void:
 		return
 	if Global == null:
 		return
-	Global.total_tasks = max(5, tasks.size())
 	var completed_count: int = 0
 	for task in tasks:
 		if task != null and task.is_done:
 			completed_count += 1
-	Global.completed_tasks = completed_count
-	Global.tasks_progress_changed.emit(Global.completed_tasks, Global.total_tasks)
+	Global.update_progress(completed_count, 5)
 
 
 func get_completed_task_count() -> int:

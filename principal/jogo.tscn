@@ -5,18 +5,84 @@
 [ext_resource type="PackedScene" uid="uid://766jsikflxl" path="res://player/player.tscn" id="2_kfdc3"]
 [ext_resource type="PackedScene" uid="uid://bjudtg6j8jr0x" path="res://itens/pickupable.tscn" id="3_epdqg"]
 [ext_resource type="PackedScene" uid="uid://cufgrpkpo3k1q" path="res://mapa/mapa.tscn" id="3_fb8jm"]
-[ext_resource type="Resource" uid="uid://bj12rk543d3f6" path="res://resource/battery.tres" id="4_fb8jm"]
-[ext_resource type="Resource" uid="uid://buhb8aso1trou" path="res://resource/bottle.tres" id="5_5jntk"]
+[ext_resource type="Texture2D" uid="uid://cfdtumhkhwqxd" path="res://pixel_art/bottle.png" id="4_8lr5p"]
+[ext_resource type="Script" uid="uid://c8vuhdnx6hn8q" path="res://item_data.gd" id="5_bjqwo"]
 [ext_resource type="PackedScene" uid="uid://j1jpajaxjija" path="res://mochila/mochila.tscn" id="6_mvh5k"]
 [ext_resource type="PackedScene" uid="uid://b3r5r0co4fumi" path="res://NPC.tscn" id="8_fb8jm"]
 [ext_resource type="Script" uid="uid://cqukjd8w3lcby" path="res://task/Task.gd" id="9_0yqbc"]
 [ext_resource type="Texture2D" uid="uid://dkj0wnv8wkyvl" path="res://pixel_art/lontra.png" id="9_5jntk"]
 [ext_resource type="Texture2D" uid="uid://clvqnxy1is2qd" path="res://trash-station.png" id="11_mvh5k"]
+[ext_resource type="Texture2D" uid="uid://bauqm6t5puy2l" path="res://pixel_art/battery.png" id="12_bjqwo"]
+
+[sub_resource type="Resource" id="Resource_8lr5p"]
+script = ExtResource("5_bjqwo")
+item_id = "bottle"
+display_name = "bottle"
+icon = ExtResource("4_8lr5p")
+description = "bottleeee"
+
+[sub_resource type="Resource" id="Resource_75htp"]
+script = ExtResource("9_0yqbc")
+task_name = "bottle"
+description = "bottle
+"
+required_item_id = "bottle "
+metadata/_custom_type_script = "uid://cqukjd8w3lcby"
+
+[sub_resource type="Resource" id="Resource_uu8s3"]
+script = ExtResource("5_bjqwo")
+item_id = "battery"
+display_name = "BATTERY"
+icon = ExtResource("12_bjqwo")
+
+[sub_resource type="Resource" id="Resource_bjqwo"]
+script = ExtResource("9_0yqbc")
+task_name = "battery"
+description = "get bateryu"
+required_item_id = "battery"
+metadata/_custom_type_script = "uid://cqukjd8w3lcby"
+
+[sub_resource type="Resource" id="Resource_udpx2"]
+script = ExtResource("9_0yqbc")
+task_name = "balls"
+description = "get the ballss"
+required_item_id = "balls "
+metadata/_custom_type_script = "uid://cqukjd8w3lcby"
+
+[sub_resource type="Resource" id="Resource_i7pil"]
+script = ExtResource("5_bjqwo")
+item_id = "balls"
+display_name = "balls"
+icon = ExtResource("4_8lr5p")
+description = "balsss"
+
+[sub_resource type="Resource" id="Resource_8crqx"]
+script = ExtResource("5_bjqwo")
+item_id = "dude"
+display_name = "dude"
+icon = ExtResource("12_bjqwo")
+description = "dudeeeeee"
+
+[sub_resource type="Resource" id="Resource_ocqjj"]
+script = ExtResource("9_0yqbc")
+task_name = "dude"
+description = "get the dude				"
+required_item_id = "dude"
+metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_0yqbc"]
 script = ExtResource("9_0yqbc")
-required_item_id = "bottle"
+task_name = "bottle2"
+description = "get the ballss222"
+required_item_id = "bottle2"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
+
+[sub_resource type="Resource" id="Resource_e8swd"]
+script = ExtResource("5_bjqwo")
+item_id = "bottle2"
+display_name = "BATTERY"
+icon = ExtResource("4_8lr5p")
+description = "bottle2"
 
 [node name="Node2D2" type="Node2D" unique_id=1510303882]
 script = ExtResource("1_3dnqk")
@@ -26,18 +92,10 @@ z_index = 100
 position = Vector2(91, -172)
 max_fall_speed = 800.0
 
-[node name="Pickupable" parent="." unique_id=893486740 instance=ExtResource("3_epdqg")]
-position = Vector2(-258, -153)
-
-[node name="Pickupable2" parent="." unique_id=1818023292 instance=ExtResource("3_epdqg")]
-position = Vector2(205, -169)
-scale = Vector2(1.975, 1.975)
-item_data = ExtResource("4_fb8jm")
-
 [node name="Pickupable3" parent="." unique_id=1234567890 instance=ExtResource("3_epdqg")]
-position = Vector2(127, -213)
+position = Vector2(64, -210)
 scale = Vector2(1.885, 1.885)
-item_data = ExtResource("5_5jntk")
+item_data = SubResource("Resource_8lr5p")
 
 [node name="PauseLayer" type="CanvasLayer" parent="." unique_id=566670352]
 
@@ -47,10 +105,70 @@ item_data = ExtResource("5_5jntk")
 position = Vector2(-63, -147)
 
 [node name="NPC" parent="." unique_id=1187715289 instance=ExtResource("8_fb8jm")]
-position = Vector2(37, -174)
-task_data = SubResource("Resource_0yqbc")
+position = Vector2(-26, -171)
+task_data = SubResource("Resource_75htp")
 sprite_sheet = ExtResource("9_5jntk")
 
 [node name="ComponentStation" parent="." unique_id=127876133 instance=ExtResource("2_5jntk")]
-position = Vector2(68, -193)
+position = Vector2(5, -190)
 sprite_sheet = ExtResource("11_mvh5k")
+
+[node name="Pickupable4" parent="." unique_id=893486740 instance=ExtResource("3_epdqg")]
+position = Vector2(-98, -218)
+scale = Vector2(1.885, 1.885)
+item_data = SubResource("Resource_uu8s3")
+
+[node name="ComponentStation4" parent="." unique_id=1939044976 instance=ExtResource("2_5jntk")]
+position = Vector2(-469, -210)
+required_item_id = "balls"
+sprite_sheet = ExtResource("11_mvh5k")
+
+[node name="NPC2" parent="." unique_id=1555946046 instance=ExtResource("8_fb8jm")]
+position = Vector2(-188, -179)
+task_data = SubResource("Resource_bjqwo")
+sprite_sheet = ExtResource("9_5jntk")
+
+[node name="NPC4" parent="." unique_id=1158221092 instance=ExtResource("8_fb8jm")]
+position = Vector2(-500, -191)
+task_data = SubResource("Resource_udpx2")
+sprite_sheet = ExtResource("9_5jntk")
+
+[node name="ComponentStation2" parent="." unique_id=649432950 instance=ExtResource("2_5jntk")]
+position = Vector2(-157, -198)
+required_item_id = "battery"
+sprite_sheet = ExtResource("11_mvh5k")
+
+[node name="Pickupable6" parent="." unique_id=710467890 instance=ExtResource("3_epdqg")]
+position = Vector2(-410, -230)
+scale = Vector2(1.885, 1.885)
+item_data = SubResource("Resource_i7pil")
+
+[node name="Pickupable5" parent="." unique_id=1964210749 instance=ExtResource("3_epdqg")]
+position = Vector2(-273, -221)
+scale = Vector2(1.885, 1.885)
+item_data = SubResource("Resource_8crqx")
+
+[node name="ComponentStation3" parent="." unique_id=512258082 instance=ExtResource("2_5jntk")]
+position = Vector2(-332, -201)
+required_item_id = "dude"
+sprite_sheet = ExtResource("11_mvh5k")
+
+[node name="NPC3" parent="." unique_id=1141603690 instance=ExtResource("8_fb8jm")]
+position = Vector2(-363, -182)
+task_data = SubResource("Resource_ocqjj")
+sprite_sheet = ExtResource("9_5jntk")
+
+[node name="ComponentStation5" parent="." unique_id=920092022 instance=ExtResource("2_5jntk")]
+position = Vector2(-643, -205)
+required_item_id = "bottle2"
+sprite_sheet = ExtResource("11_mvh5k")
+
+[node name="NPC5" parent="." unique_id=1333869038 instance=ExtResource("8_fb8jm")]
+position = Vector2(-674, -186)
+task_data = SubResource("Resource_0yqbc")
+sprite_sheet = ExtResource("9_5jntk")
+
+[node name="Pickupable7" parent="." unique_id=512520618 instance=ExtResource("3_epdqg")]
+position = Vector2(-584, -225)
+scale = Vector2(1.885, 1.885)
+item_data = SubResource("Resource_e8swd")

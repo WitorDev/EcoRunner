@@ -31,8 +31,8 @@ func _refresh_global_task_count() -> void:
 	if player == null:
 		return
 	if Global != null:
-		Global.total_tasks = max(1, player.tasks.size())
-		Global.completed_tasks = player.get_completed_task_count() if player.has_method("get_completed_task_count") else 0
+		var completed_count: int = player.get_completed_task_count() if player.has_method("get_completed_task_count") else 0
+		Global.update_progress(completed_count, 5)
 
 
 func _input(event: InputEvent) -> void:
