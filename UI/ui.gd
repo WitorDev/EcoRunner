@@ -5,6 +5,7 @@ extends Control
 
 @onready var slot_icon: TextureRect = get_node_or_null("%SlotIcon")
 @onready var canvas: CanvasLayer = get_node_or_null("CanvasLayer")
+@onready var health_display: RichTextLabel = get_node_or_null("CanvasLayer/HealthDisplay")
 
 @export_range(0.0, 1.0) var disabled_opacity: float = 0.3
 @export_range(0.0, 1.0) var active_opacity: float = 1.0
@@ -38,6 +39,10 @@ func _bind_player() -> void:
 
 	player = player_node as Player
 	if player != null:
+		if player.has_signal("health_changed"):
+			player.health_changed.connect(_update_health_display)
+		if player.has_method("take_damage"):
+			_update_health_display(player.health, player.max_health)
 		if player.has_signal("tasks_changed"):
 			player.tasks_changed.connect(_on_tasks_changed)
 		if player.has_node("InventoryComponent"):
@@ -46,6 +51,13 @@ func _bind_player() -> void:
 				inventory.item_changed.connect(_update_slot_ui)
 			_update_slot_ui(inventory.current_item if inventory != null else null)
 		_refresh_task_ui()
+
+
+func _update_health_display(current: int, maximum: int) -> void:
+	if health_display == null:
+		return
+	health_display.text = "[color=#ef476f]" + "♥".repeat(current) \
+		+ "[/color][color=#555555]" + "♥".repeat(maximum - current) + "[/color]"
 
 
 func _on_tasks_changed() -> void:
