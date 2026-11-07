@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dxjbmk8cofjh1"]
 
 [ext_resource type="Script" uid="uid://rs17v8duxamo" path="res://tela_inicial/main_menu.gd" id="1_n76tf"]
-
 [sub_resource type="CanvasTexture" id="CanvasTexture_rhts7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_06t4h"]

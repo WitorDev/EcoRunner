@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dkj0wnv8wkyvl" path="res://pixel_art/lontra.png" id="9_5jntk"]
 [ext_resource type="Texture2D" uid="uid://clvqnxy1is2qd" path="res://trash-station.png" id="11_mvh5k"]
 [ext_resource type="Texture2D" uid="uid://bauqm6t5puy2l" path="res://pixel_art/battery.png" id="12_bjqwo"]
+[ext_resource type="AudioStream" uid="uid://cn6ayp5bc2y5p" path="res://musica/Infinite Jump.mp3" id="14_bjqwo"]
 
 [sub_resource type="Resource" id="Resource_8lr5p"]
 script = ExtResource("5_bjqwo")
@@ -172,3 +173,9 @@ sprite_sheet = ExtResource("9_5jntk")
 position = Vector2(-584, -225)
 scale = Vector2(1.885, 1.885)
 item_data = SubResource("Resource_e8swd")
+
+[node name="MusicaFundoGameplay" type="AudioStreamPlayer" parent="." unique_id=423663907]
+stream = ExtResource("14_bjqwo")
+volume_db = -9.208
+autoplay = true
+parameters/looping = false
