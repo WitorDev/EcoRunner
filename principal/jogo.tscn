@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" path="res://pixel_art/canteiro.png" id="17_cante"]
 [ext_resource type="Texture2D" path="res://pixel_art/filhote_lontra.png" id="18_filho"]
 [ext_resource type="Texture2D" path="res://pixel_art/rio.png" id="19_rio"]
+[ext_resource type="PackedScene" path="res://fundo/fundo.tscn" id="20_fundo"]
 
 [sub_resource type="Resource" id="Resource_8lr5p"]
 script = ExtResource("5_bjqwo")
@@ -93,6 +94,8 @@ description = "Um filhote de lontra perdido."
 
 [node name="Node2D2" type="Node2D" unique_id=1510303882]
 script = ExtResource("1_3dnqk")
+
+[node name="Fundo" parent="." instance=ExtResource("20_fundo")]
 
 [node name="Player" parent="." unique_id=204597494 instance=ExtResource("2_kfdc3")]
 z_index = 100
