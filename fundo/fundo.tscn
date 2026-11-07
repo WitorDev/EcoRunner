@@ -22,9 +22,11 @@ region_rect = Rect2(0, 0, 8256, 1536)
 
 [node name="CidadeVerde" type="Sprite2D" parent="."]
 z_index = -99
-texture_repeat = 2
+texture_filter = 4
+texture_repeat = 3
 position = Vector2(0, -174)
+scale = Vector2(0.24589, 0.24589)
 texture = ExtResource("3_verde")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 1236, 230)
+region_rect = Rect2(0, 0, 6716, 937)

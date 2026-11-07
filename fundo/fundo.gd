@@ -10,9 +10,12 @@ extends Node2D
 ## 0 = fundo parado na tela, 1 = fundo anda junto com o chão.
 const FATOR_PARALLAX := 0.3
 
-## Largura de UMA cópia de cada fundo no mundo (px).
+## Largura de UMA cópia de cada fundo no mundo (px). Escala = mesma altura (230,4 px).
 const LARGURA_RUINAS := 2752.0 * 0.15
-const LARGURA_VERDE := 412.0
+const LARGURA_VERDE := 1679.0 * 0.24589
+## A cidade verde repete espelhada (texture_repeat = Mirror) porque as bordas da imagem
+## não emendam; o padrão só se repete a cada 2 cópias.
+const PERIODO_VERDE := LARGURA_VERDE * 2.0
 
 ## Desloca o fundo de ruínas para o trecho mais bonito (o oásis) aparecer no começo.
 ## (O oásis fica a ~207 px da borda esquerda da imagem; com o Leco no início, x ≈ 56.)
@@ -46,7 +49,7 @@ const CORES_RUINAS: Array[Color] = [
 
 ## Cor do topo do céu de cada imagem, usada no céu acima das imagens (cor de fundo da tela).
 const CEU_RUINAS := Color(0.29, 0.55, 0.71)
-const CEU_VERDE := Color(0.37, 0.72, 0.93)
+const CEU_VERDE := Color(0.33, 0.58, 0.73)
 
 @onready var canvas_modulate: CanvasModulate = $CanvasModulate
 @onready var ruinas: Sprite2D = $Ruinas
@@ -71,10 +74,11 @@ func _process(_delta: float) -> void:
 		var centro_x := camera.get_screen_center_position().x
 		var meia_tela := get_viewport_rect().size.x / camera.zoom.x * 0.5
 		_posicionar(ruinas, LARGURA_RUINAS, DESLOCAMENTO_RUINAS, centro_x, meia_tela)
-		_posicionar(cidade_verde, LARGURA_VERDE, 0.0, centro_x, meia_tela)
+		_posicionar(cidade_verde, PERIODO_VERDE, 0.0, centro_x, meia_tela)
 
 
-## Põe o sprite (3 cópias lado a lado) de forma que a 1ª cópia comece à esquerda da tela.
+## Põe o sprite (cópias lado a lado) de forma que o 1º período comece à esquerda da tela.
+## O sprite precisa ter pelo menos 2 períodos de largura na região.
 func _posicionar(sprite: Sprite2D, largura: float, deslocamento: float, centro_x: float, meia_tela: float) -> void:
 	var base := centro_x * (1.0 - FATOR_PARALLAX) + deslocamento
 	var k := floorf((centro_x - meia_tela - base) / largura)
