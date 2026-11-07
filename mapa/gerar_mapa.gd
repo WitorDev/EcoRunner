@@ -3,8 +3,8 @@ extends EditorScript
 
 ## Gerador do mapa da fase única.
 ##
-## Como usar: abra `mapa/mapa.tscn` no editor, abra este script e use
-## File → Run (Ctrl+Shift+X). Depois salve a cena (Ctrl+S).
+## Como usar: abra este script no editor e use File → Run (Ctrl+Shift+X).
+## O script abre `mapa/mapa.tscn` sozinho, redesenha e salva a cena.
 ##
 ## O script é idempotente: apaga todos os tiles e redesenha a fase inteira.
 ##
@@ -15,6 +15,7 @@ extends EditorScript
 ##          P = player, N = NPC, I = item, E = estação
 ## As zonas são coladas lado a lado, da esquerda para a direita.
 
+const CENA_MAPA := "res://mapa/mapa.tscn"
 const TAM_TILE := 16
 const MEIO_TILE := 8
 const TERRAIN_SET := 0
@@ -47,9 +48,11 @@ const ZONAS: Array = [ZONA_1]
 
 
 func _run() -> void:
-	var mapa := get_scene() as TileMapLayer
-	if mapa == null:
-		push_error("[gerar_mapa] Abra mapa/mapa.tscn antes de rodar (a raiz precisa ser um TileMapLayer).")
+	# Abre (ou troca para) a aba de mapa.tscn, não importa qual cena está ativa.
+	EditorInterface.open_scene_from_path(CENA_MAPA)
+	var mapa := EditorInterface.get_edited_scene_root() as TileMapLayer
+	if mapa == null or mapa.scene_file_path != CENA_MAPA:
+		push_error("[gerar_mapa] Não consegui abrir %s como TileMapLayer." % CENA_MAPA)
 		return
 
 	mapa.clear()
@@ -80,7 +83,8 @@ func _run() -> void:
 
 	mapa.set_cells_terrain_connect(celulas, TERRAIN_SET, TERRAIN)
 	EditorInterface.mark_scene_as_unsaved()
-	print("[gerar_mapa] Pronto: %d tiles, %d colunas. Salve a cena (Ctrl+S)." % [celulas.size(), coluna_inicial])
+	EditorInterface.save_scene()
+	print("[gerar_mapa] Pronto: %d tiles, %d colunas. %s salvo." % [celulas.size(), coluna_inicial, CENA_MAPA])
 
 
 func _largura_da_zona(zona: Array, indice_zona: int) -> int:
