@@ -2,7 +2,26 @@ extends Node2D
 
 ## Cor e fundo da fase guiados pela posição X do player:
 ## zonas 1-2 poluídas (escuras/avermelhadas, ruínas), zona 3 transição, zonas 4-5 cidade verde.
-## Os valores abaixo são por zona; entre os centros das zonas a cor é interpolada.
+##
+## Parallax feito à mão: cada fundo é um Sprite2D com a textura repetida 3 vezes
+## (region + texture_repeat). A cada quadro o sprite é reposicionado a partir da câmera,
+## então sempre há imagem cobrindo a tela.
+
+## 0 = fundo parado na tela, 1 = fundo anda junto com o chão.
+const FATOR_PARALLAX := 0.3
+
+## Largura de UMA cópia de cada fundo no mundo (px).
+const LARGURA_RUINAS := 2752.0 * 0.15
+const LARGURA_VERDE := 412.0
+
+## Desloca o fundo de ruínas para o trecho mais bonito (o oásis) aparecer no começo.
+## (O oásis fica a ~207 px da borda esquerda da imagem; com o Leco no início, x ≈ 56.)
+const DESLOCAMENTO_RUINAS := -190.0
+
+## A cidade verde aparece aos poucos entre estes X (px): começa na zona 2 e
+## fica completa no meio da zona 4.
+const VERDE_INICIO_X := 760.0
+const VERDE_FIM_X := 1760.0
 
 ## Centro de cada zona em pixels (zonas de 30 tiles = 480 px).
 const CENTROS_X: Array[float] = [240.0, 720.0, 1200.0, 1680.0, 2160.0]
@@ -16,7 +35,7 @@ const CORES_MUNDO: Array[Color] = [
 	Color(1.0, 1.0, 1.0),    # 5 cidade verde
 ]
 
-## Tom extra do fundo de ruínas (soma com a cor do mundo).
+## Tom extra do fundo de ruínas (multiplica com a cor do mundo).
 const CORES_RUINAS: Array[Color] = [
 	Color(0.80, 0.70, 0.60),
 	Color(0.90, 0.62, 0.50),
@@ -25,34 +44,44 @@ const CORES_RUINAS: Array[Color] = [
 	Color(1.0, 1.0, 1.0),
 ]
 
-## Opacidade do fundo de cidade verde (0 = só ruínas, 1 = só cidade verde).
-const OPACIDADE_VERDE: Array[float] = [0.0, 0.0, 0.5, 1.0, 1.0]
-
 ## Cor do topo do céu de cada imagem, usada no céu acima das imagens (cor de fundo da tela).
 const CEU_RUINAS := Color(0.29, 0.55, 0.71)
 const CEU_VERDE := Color(0.37, 0.72, 0.93)
 
 @onready var canvas_modulate: CanvasModulate = $CanvasModulate
-@onready var ruinas: Parallax2D = $Ruinas
-@onready var cidade_verde: Parallax2D = $CidadeVerde
+@onready var ruinas: Sprite2D = $Ruinas
+@onready var cidade_verde: Sprite2D = $CidadeVerde
 
 var player: Node2D
 
 
 func _ready() -> void:
-	_aplicar(CENTROS_X[0])
+	_aplicar_cores(CENTROS_X[0])
 
 
 func _process(_delta: float) -> void:
 	# O player entra no grupo "player" no _ready dele, que pode rodar depois deste.
 	if player == null or not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player") as Node2D
-		if player == null:
-			return
-	_aplicar(player.global_position.x)
+	if player != null:
+		_aplicar_cores(player.global_position.x)
+
+	var camera := get_viewport().get_camera_2d()
+	if camera != null:
+		var centro_x := camera.get_screen_center_position().x
+		var meia_tela := get_viewport_rect().size.x / camera.zoom.x * 0.5
+		_posicionar(ruinas, LARGURA_RUINAS, DESLOCAMENTO_RUINAS, centro_x, meia_tela)
+		_posicionar(cidade_verde, LARGURA_VERDE, 0.0, centro_x, meia_tela)
 
 
-func _aplicar(x: float) -> void:
+## Põe o sprite (3 cópias lado a lado) de forma que a 1ª cópia comece à esquerda da tela.
+func _posicionar(sprite: Sprite2D, largura: float, deslocamento: float, centro_x: float, meia_tela: float) -> void:
+	var base := centro_x * (1.0 - FATOR_PARALLAX) + deslocamento
+	var k := floorf((centro_x - meia_tela - base) / largura)
+	sprite.position.x = base + k * largura
+
+
+func _aplicar_cores(x: float) -> void:
 	var i := 0
 	var t := 0.0
 	var ultimo := CENTROS_X.size() - 1
@@ -63,12 +92,12 @@ func _aplicar(x: float) -> void:
 		for k in ultimo:
 			if x < CENTROS_X[k + 1]:
 				i = k
-				t = (x - CENTROS_X[k]) / (CENTROS_X[k + 1] - CENTROS_X[k])
+				t = smoothstep(CENTROS_X[k], CENTROS_X[k + 1], x)
 				break
 
 	var cor_mundo := CORES_MUNDO[i].lerp(CORES_MUNDO[i + 1], t)
 	var cor_ruinas := CORES_RUINAS[i].lerp(CORES_RUINAS[i + 1], t)
-	var verde := lerpf(OPACIDADE_VERDE[i], OPACIDADE_VERDE[i + 1], t)
+	var verde := smoothstep(VERDE_INICIO_X, VERDE_FIM_X, x)
 
 	canvas_modulate.color = cor_mundo
 	ruinas.modulate = cor_ruinas
