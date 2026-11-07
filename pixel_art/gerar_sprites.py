@@ -22,11 +22,14 @@ def cor(c):
 
 
 class Tela:
-    def __init__(self, w, h):
+    def __init__(self, w, h, repetir_x=False):
         self.w, self.h = w, h
+        self.repetir_x = repetir_x  # desenhar "dando a volta" na horizontal (fundo emendável)
         self.p = [[(0, 0, 0, 0)] * w for _ in range(h)]
 
     def px(self, x, y, c):
+        if self.repetir_x:
+            x %= self.w
         if 0 <= x < self.w and 0 <= y < self.h:
             self.p[y][x] = cor(c)
 
@@ -274,6 +277,92 @@ def rio():
     return folha(quadro(False), quadro(True))
 
 
+# ------------------------------------------------------------ fundo 412x230
+
+def _misturar(c1, c2, t):
+    a, b = cor(c1), cor(c2)
+    return "#" + "".join("%02x" % round(a[i] + (b[i] - a[i]) * t) for i in range(4))
+
+
+def cidade_verde():
+    """Fundo da cidade sustentável (zonas 4-5), emendável na horizontal.
+
+    Mesmo tamanho na tela que o background-parallax.jpg (escala 0.15). A linha y = 174
+    da imagem fica no nível do chão do jogo (y = 0); tudo abaixo de ~182 fica atrás dos tiles.
+    """
+    import math
+    import random
+
+    W, H, CHAO = 412, 230, 182
+    rnd = random.Random(13)
+    t = Tela(W, H, repetir_x=True)
+
+    for y in range(H):  # céu em degradê
+        t.ret(0, y, W, 1, _misturar("#5fb7ee", "#d4f0fb", min(y / CHAO, 1.0)))
+
+    t.elipse(330, 40, 15, 15, "#fff3b0")
+    t.elipse(330, 40, 11, 11, "#ffe680")
+    for cx, cy in ((60, 35), (200, 24), (285, 62)):
+        for dx, dy, r in ((-10, 2, 7), (0, -2, 9), (11, 2, 7), (4, 4, 7)):
+            t.elipse(cx + dx, cy + dy + 1, r, r * 0.7, "#dcefF8")
+            t.elipse(cx + dx, cy + dy, r, r * 0.7, "#ffffff")
+
+    for x in range(W):  # morros ao longe (periódicos em W)
+        a = 2 * math.pi * x / W
+        topo = int(138 + 9 * math.sin(2 * a) + 5 * math.sin(5 * a + 1))
+        t.ret(x, topo, 1, CHAO - topo, "#a6d9a0")
+
+    x = 0
+    while x < W:  # prédios ao longe
+        w = rnd.randint(14, 24)
+        h = rnd.randint(28, 70)
+        t.ret(x, 160 - h, w - 2, h, "#a9c6cc")
+        for wy in range(160 - h + 4, 156, 6):
+            for wx in range(x + 3, x + w - 4, 5):
+                t.ret(wx, wy, 2, 3, "#d9eef2")
+        x += w + rnd.randint(2, 10)
+
+    for tx in (40, 175, 305):  # turbinas eólicas
+        t.linha(tx, 158, tx, 96, "#f4f7f7", 2)
+        for ang in (90, 210, 330):
+            r = math.radians(ang)
+            t.linha(tx, 96, tx + round(19 * math.cos(r)), 96 - round(19 * math.sin(r)), "#ffffff")
+        t.elipse(tx + 0.5, 96.5, 2, 2, "#d0d8d8")
+
+    x = 8
+    while x < W:  # prédios perto, com telhado verde ou painel solar
+        w = rnd.randint(26, 42)
+        h = rnd.randint(38, 72)
+        topo = CHAO - h
+        t.ret(x, topo, w, h, rnd.choice(("#f2efe6", "#e4dac6", "#d3e6ea", "#efe2d0")))
+        t.ret(x, topo, w, 1, "#b9b2a2")
+        for wy in range(topo + 6, CHAO - 6, 9):
+            for wx in range(x + 4, x + w - 5, 7):
+                t.ret(wx, wy, 4, 5, "#8fb8cf")
+                t.ret(wx, wy, 4, 1, "#c8e2ee")
+        if rnd.random() < 0.5:
+            t.ret(x + 1, topo - 3, w - 2, 3, "#5fae4f")
+            for bx in range(x + 3, x + w - 3, 6):
+                t.elipse(bx, topo - 4, 3, 2.5, "#3f9e3a")
+        else:
+            for px_ in range(x + 3, x + w - 8, 9):
+                t.linha(px_, topo - 1, px_ + 6, topo - 6, "#2c4a7a", 2)
+        x += w + rnd.randint(14, 30)
+
+    x = 0
+    while x < W:  # árvores na rua
+        h = rnd.randint(8, 13)
+        t.ret(x, CHAO - h, 2, h, "#6b4423")
+        r = rnd.randint(6, 9)
+        t.elipse(x + 1, CHAO - h - r + 3, r, r, "#3f9e3a")
+        t.elipse(x - 1, CHAO - h - r + 1, r * 0.5, r * 0.5, "#58c23a")
+        x += rnd.randint(18, 34)
+
+    t.ret(0, CHAO, W, H - CHAO, "#4f9a3a")
+    t.ret(0, CHAO, W, 2, "#6cbf4a")
+    return t
+
+
 if __name__ == "__main__":
     extintor().salvar("extintor.png")
     muda().salvar("muda.png")
@@ -282,3 +371,4 @@ if __name__ == "__main__":
     gerador().salvar("gerador.png")
     canteiro().salvar("canteiro.png")
     rio().salvar("rio.png")
+    cidade_verde().salvar("cidade_verde.png")
