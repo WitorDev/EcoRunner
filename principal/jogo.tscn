@@ -13,76 +13,83 @@
 [ext_resource type="Texture2D" uid="uid://dkj0wnv8wkyvl" path="res://pixel_art/lontra.png" id="9_5jntk"]
 [ext_resource type="Texture2D" uid="uid://clvqnxy1is2qd" path="res://trash-station.png" id="11_mvh5k"]
 [ext_resource type="Texture2D" uid="uid://bauqm6t5puy2l" path="res://pixel_art/battery.png" id="12_bjqwo"]
+[ext_resource type="Texture2D" path="res://pixel_art/extintor.png" id="13_extin"]
+[ext_resource type="Texture2D" path="res://pixel_art/fogo.png" id="14_fogo"]
+[ext_resource type="Texture2D" path="res://pixel_art/gerador.png" id="15_gerad"]
+[ext_resource type="Texture2D" path="res://pixel_art/muda.png" id="16_muda"]
+[ext_resource type="Texture2D" path="res://pixel_art/canteiro.png" id="17_cante"]
+[ext_resource type="Texture2D" path="res://pixel_art/filhote_lontra.png" id="18_filho"]
+[ext_resource type="Texture2D" path="res://pixel_art/rio.png" id="19_rio"]
 
 [sub_resource type="Resource" id="Resource_8lr5p"]
 script = ExtResource("5_bjqwo")
 item_id = "bottle"
-display_name = "bottle"
+display_name = "Garrafa"
 icon = ExtResource("4_8lr5p")
-description = "bottleeee"
+description = "Uma garrafa jogada no chão."
 
 [sub_resource type="Resource" id="Resource_75htp"]
 script = ExtResource("9_0yqbc")
-task_name = "bottless "
-description = "bottle
-"
+task_name = "Recolher a garrafa"
+description = "Tem uma garrafa jogada no chão. Pegue e jogue na lixeira."
 required_item_id = "bottle"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_uu8s3"]
 script = ExtResource("5_bjqwo")
 item_id = "battery"
-display_name = "BATTERY"
+display_name = "Pilha"
 icon = ExtResource("12_bjqwo")
+description = "Uma pilha carregada."
 
 [sub_resource type="Resource" id="Resource_bjqwo"]
 script = ExtResource("9_0yqbc")
-task_name = "battery"
-description = "get bateryu"
+task_name = "Ligar o gerador"
+description = "A cidade está sem energia. Pegue a pilha lá no alto e coloque no gerador."
 required_item_id = "battery"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_udpx2"]
 script = ExtResource("9_0yqbc")
-task_name = "sssss "
-description = "get the ballss"
-required_item_id = "balls"
+task_name = "Apagar o fogo"
+description = "A floresta está pegando fogo! Pegue o extintor em cima da plataforma e apague o fogo."
+required_item_id = "extintor"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_i7pil"]
 script = ExtResource("5_bjqwo")
-item_id = "balls"
-display_name = "balls"
-icon = ExtResource("4_8lr5p")
-description = "balsss"
+item_id = "extintor"
+display_name = "Extintor"
+icon = ExtResource("13_extin")
+description = "Um extintor de incêndio."
 
 [sub_resource type="Resource" id="Resource_8crqx"]
 script = ExtResource("5_bjqwo")
-item_id = "dude"
-display_name = "dude"
-icon = ExtResource("12_bjqwo")
-description = "dudeeeeee"
+item_id = "muda"
+display_name = "Muda de árvore"
+icon = ExtResource("16_muda")
+description = "Uma muda pronta para ser plantada."
 
 [sub_resource type="Resource" id="Resource_ocqjj"]
 script = ExtResource("9_0yqbc")
-task_name = "dudess "
-description = "get the dude				"
-required_item_id = "dude"
+task_name = "Plantar a muda"
+description = "Pegue a muda de árvore e plante no canteiro."
+required_item_id = "muda"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_0yqbc"]
 script = ExtResource("9_0yqbc")
-task_name = "bottle2ss"
-description = "get the ballss222"
-required_item_id = "bottle2"
+task_name = "Levar o filhote para casa"
+description = "O filhote de lontra se perdeu. Leve ele de volta ao rio limpo."
+required_item_id = "filhote_lontra"
 metadata/_custom_type_script = "uid://cqukjd8w3lcby"
 
 [sub_resource type="Resource" id="Resource_e8swd"]
 script = ExtResource("5_bjqwo")
-item_id = "bottle2"
-display_name = "BATTERY"
-icon = ExtResource("4_8lr5p")
-description = "bottle2"
+item_id = "filhote_lontra"
+display_name = "Filhote de lontra"
+icon = ExtResource("18_filho")
+description = "Um filhote de lontra perdido."
 
 [node name="Node2D2" type="Node2D" unique_id=1510303882]
 script = ExtResource("1_3dnqk")
@@ -91,11 +98,6 @@ script = ExtResource("1_3dnqk")
 z_index = 100
 position = Vector2(56, -20)
 max_fall_speed = 800.0
-
-[node name="Pickupable3" parent="." unique_id=1234567890 instance=ExtResource("3_epdqg")]
-position = Vector2(264, -60)
-scale = Vector2(1.885, 1.885)
-item_data = SubResource("Resource_8lr5p")
 
 [node name="PauseLayer" type="CanvasLayer" parent="." unique_id=566670352]
 
@@ -108,66 +110,71 @@ position = Vector2(104, -16)
 task_data = SubResource("Resource_75htp")
 sprite_sheet = ExtResource("9_5jntk")
 
+[node name="Pickupable3" parent="." unique_id=1234567890 instance=ExtResource("3_epdqg")]
+position = Vector2(264, -60)
+scale = Vector2(1.885, 1.885)
+item_data = SubResource("Resource_8lr5p")
+
 [node name="ComponentStation" parent="." unique_id=127876133 instance=ExtResource("2_5jntk")]
 position = Vector2(424, -32)
 sprite_sheet = ExtResource("11_mvh5k")
 
-[node name="Pickupable4" parent="." unique_id=893486740 instance=ExtResource("3_epdqg")]
-position = Vector2(-98, -218)
-scale = Vector2(1.885, 1.885)
-item_data = SubResource("Resource_uu8s3")
-
-[node name="ComponentStation4" parent="." unique_id=1939044976 instance=ExtResource("2_5jntk")]
-position = Vector2(-469, -210)
-required_item_id = "balls"
-sprite_sheet = ExtResource("11_mvh5k")
-
-[node name="NPC2" parent="." unique_id=1555946046 instance=ExtResource("8_fb8jm")]
-position = Vector2(-188, -179)
-task_data = SubResource("Resource_bjqwo")
-sprite_sheet = ExtResource("9_5jntk")
-
 [node name="NPC4" parent="." unique_id=1158221092 instance=ExtResource("8_fb8jm")]
-position = Vector2(-500, -191)
+position = Vector2(536, -16)
 task_data = SubResource("Resource_udpx2")
 sprite_sheet = ExtResource("9_5jntk")
 
-[node name="ComponentStation2" parent="." unique_id=649432950 instance=ExtResource("2_5jntk")]
-position = Vector2(-157, -198)
-required_item_id = "battery"
-sprite_sheet = ExtResource("11_mvh5k")
-
 [node name="Pickupable6" parent="." unique_id=710467890 instance=ExtResource("3_epdqg")]
-position = Vector2(-410, -230)
+position = Vector2(744, -92)
 scale = Vector2(1.885, 1.885)
 item_data = SubResource("Resource_i7pil")
 
+[node name="ComponentStation4" parent="." unique_id=1939044976 instance=ExtResource("2_5jntk")]
+position = Vector2(904, -32)
+required_item_id = "extintor"
+sprite_sheet = ExtResource("14_fogo")
+
+[node name="NPC2" parent="." unique_id=1555946046 instance=ExtResource("8_fb8jm")]
+position = Vector2(1016, -16)
+task_data = SubResource("Resource_bjqwo")
+sprite_sheet = ExtResource("9_5jntk")
+
+[node name="Pickupable4" parent="." unique_id=893486740 instance=ExtResource("3_epdqg")]
+position = Vector2(1208, -124)
+scale = Vector2(1.885, 1.885)
+item_data = SubResource("Resource_uu8s3")
+
+[node name="ComponentStation2" parent="." unique_id=649432950 instance=ExtResource("2_5jntk")]
+position = Vector2(1384, -32)
+required_item_id = "battery"
+sprite_sheet = ExtResource("15_gerad")
+
+[node name="NPC3" parent="." unique_id=1141603690 instance=ExtResource("8_fb8jm")]
+position = Vector2(1496, -16)
+task_data = SubResource("Resource_ocqjj")
+sprite_sheet = ExtResource("9_5jntk")
+
 [node name="Pickupable5" parent="." unique_id=1964210749 instance=ExtResource("3_epdqg")]
-position = Vector2(-273, -221)
+position = Vector2(1720, -44)
 scale = Vector2(1.885, 1.885)
 item_data = SubResource("Resource_8crqx")
 
 [node name="ComponentStation3" parent="." unique_id=512258082 instance=ExtResource("2_5jntk")]
-position = Vector2(-332, -201)
-required_item_id = "dude"
-sprite_sheet = ExtResource("11_mvh5k")
-
-[node name="NPC3" parent="." unique_id=1141603690 instance=ExtResource("8_fb8jm")]
-position = Vector2(-363, -182)
-task_data = SubResource("Resource_ocqjj")
-sprite_sheet = ExtResource("9_5jntk")
-
-[node name="ComponentStation5" parent="." unique_id=920092022 instance=ExtResource("2_5jntk")]
-position = Vector2(-643, -205)
-required_item_id = "bottle2"
-sprite_sheet = ExtResource("11_mvh5k")
+position = Vector2(1864, -32)
+required_item_id = "muda"
+sprite_sheet = ExtResource("17_cante")
 
 [node name="NPC5" parent="." unique_id=1333869038 instance=ExtResource("8_fb8jm")]
-position = Vector2(-674, -186)
+position = Vector2(1976, -16)
 task_data = SubResource("Resource_0yqbc")
 sprite_sheet = ExtResource("9_5jntk")
 
 [node name="Pickupable7" parent="." unique_id=512520618 instance=ExtResource("3_epdqg")]
-position = Vector2(-584, -225)
+position = Vector2(2184, -76)
 scale = Vector2(1.885, 1.885)
 item_data = SubResource("Resource_e8swd")
+
+[node name="ComponentStation5" parent="." unique_id=920092022 instance=ExtResource("2_5jntk")]
+position = Vector2(2344, -32)
+required_item_id = "filhote_lontra"
+sprite_sheet = ExtResource("19_rio")
