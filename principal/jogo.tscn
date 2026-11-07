@@ -89,11 +89,11 @@ script = ExtResource("1_3dnqk")
 
 [node name="Player" parent="." unique_id=204597494 instance=ExtResource("2_kfdc3")]
 z_index = 100
-position = Vector2(91, -172)
+position = Vector2(56, -20)
 max_fall_speed = 800.0
 
 [node name="Pickupable3" parent="." unique_id=1234567890 instance=ExtResource("3_epdqg")]
-position = Vector2(64, -210)
+position = Vector2(264, -60)
 scale = Vector2(1.885, 1.885)
 item_data = SubResource("Resource_8lr5p")
 
@@ -102,15 +102,14 @@ item_data = SubResource("Resource_8lr5p")
 [node name="mochila" parent="." unique_id=1520624814 instance=ExtResource("6_mvh5k")]
 
 [node name="Mapa" parent="." unique_id=1640140819 instance=ExtResource("3_fb8jm")]
-position = Vector2(-63, -147)
 
 [node name="NPC" parent="." unique_id=1187715289 instance=ExtResource("8_fb8jm")]
-position = Vector2(-26, -171)
+position = Vector2(104, -16)
 task_data = SubResource("Resource_75htp")
 sprite_sheet = ExtResource("9_5jntk")
 
 [node name="ComponentStation" parent="." unique_id=127876133 instance=ExtResource("2_5jntk")]
-position = Vector2(5, -190)
+position = Vector2(424, -32)
 sprite_sheet = ExtResource("11_mvh5k")
 
 [node name="Pickupable4" parent="." unique_id=893486740 instance=ExtResource("3_epdqg")]
