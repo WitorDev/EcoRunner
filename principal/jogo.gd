@@ -12,6 +12,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	if Global != null:
 		Global.set_total_tasks(5)
+		Global.last_survival_time = 0.0
 	_ensure_ui_is_loaded()
 	_refresh_global_task_count()
 
@@ -32,7 +33,7 @@ func _refresh_global_task_count() -> void:
 		return
 	if Global != null:
 		var completed_count: int = player.get_completed_task_count() if player.has_method("get_completed_task_count") else 0
-		Global.update_progress(completed_count, 5)
+		Global.update_progress(completed_count, Global.total_tasks)
 
 
 func _input(event: InputEvent) -> void:
