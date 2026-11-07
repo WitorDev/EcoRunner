@@ -2,6 +2,7 @@ extends Control
 
 
 func _ready() -> void:
+	Global.play_menu_music()
 	$CenterContainer/VBoxContainer/BtnJogar.pressed.connect(_on_btn_jogar_pressed)
 	$CenterContainer/VBoxContainer/BtnConfiguracoes.pressed.connect(_on_btn_configuracoes_pressed)
 	$CenterContainer/VBoxContainer/BtnPontuacoes.pressed.connect(_on_btn_pontuacoes_pressed)
@@ -9,6 +10,7 @@ func _ready() -> void:
 
 
 func _on_btn_jogar_pressed() -> void:
+	Global.stop_menu_music()
 	get_tree().change_scene_to_file("res://principal/jogo.tscn")
 
 
