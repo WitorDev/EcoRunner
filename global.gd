@@ -1,12 +1,41 @@
 extends Node
 
+const MENU_MUSIC_STREAM: AudioStream = preload("res://musica/Welcome to the Game.mp3")
+
 var completed_tasks: int = 0
 var total_tasks: int = 5
 var is_game_finished: bool = false
 var last_survival_time: float = 0.0
+var menu_music_player: AudioStreamPlayer
 
 signal tasks_progress_changed(completed: int, total: int)
 signal game_finished
+
+
+func play_menu_music() -> void:
+	if menu_music_player == null or not is_instance_valid(menu_music_player):
+		menu_music_player = AudioStreamPlayer.new()
+		menu_music_player.name = "MenuMusic"
+		menu_music_player.stream = MENU_MUSIC_STREAM
+		menu_music_player.finished.connect(_restart_menu_music)
+		add_child(menu_music_player)
+
+	if not menu_music_player.playing:
+		menu_music_player.play()
+
+
+func stop_menu_music() -> void:
+	if menu_music_player == null or not is_instance_valid(menu_music_player):
+		return
+
+	menu_music_player.stop()
+	menu_music_player.queue_free()
+	menu_music_player = null
+
+
+func _restart_menu_music() -> void:
+	if menu_music_player != null and is_instance_valid(menu_music_player):
+		menu_music_player.play()
 
 
 func reset_progress() -> void:

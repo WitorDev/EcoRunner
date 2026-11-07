@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" path="res://pixel_art/obstaculo_chama.png" id="23_chama"]
 [ext_resource type="Texture2D" path="res://pixel_art/obstaculo_fio.png" id="24_fio"]
 [ext_resource type="Texture2D" path="res://pixel_art/obstaculo_espinhos.png" id="25_espinhos"]
+[ext_resource type="AudioStream" uid="uid://cn6ayp5bc2y5p" path="res://musica/Infinite Jump.mp3" id="14_bjqwo"]
 
 [sub_resource type="Resource" id="Resource_8lr5p"]
 script = ExtResource("5_bjqwo")
@@ -211,3 +212,9 @@ textura = ExtResource("25_espinhos")
 [node name="Obstaculo_Z4_Espinhos2" parent="." instance=ExtResource("21_obst")]
 position = Vector2(1768, -24)
 textura = ExtResource("25_espinhos")
+
+[node name="MusicaFundoGameplay" type="AudioStreamPlayer" parent="." unique_id=423663907]
+stream = ExtResource("14_bjqwo")
+volume_db = -9.208
+autoplay = true
+parameters/looping = true
