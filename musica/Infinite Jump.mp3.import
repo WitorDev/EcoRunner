@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/Infinite Jump.mp3-ef96f288c7595be97fb9b13fed6
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

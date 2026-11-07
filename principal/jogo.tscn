@@ -217,4 +217,4 @@ textura = ExtResource("25_espinhos")
 stream = ExtResource("14_bjqwo")
 volume_db = -9.208
 autoplay = true
-parameters/looping = false
+parameters/looping = true
