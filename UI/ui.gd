@@ -15,6 +15,9 @@ var task_list: VBoxContainer
 var player: Player
 var task_notification: Label
 var notification_timer: float = 0.0
+## Usados para saber se a mudança nas missões foi "nova missão" ou "missão concluída".
+var qtd_missoes: int = 0
+var qtd_concluidas: int = 0
 
 
 func _ready() -> void:
@@ -62,10 +65,21 @@ func _update_health_display(current: int, maximum: int) -> void:
 
 func _on_tasks_changed() -> void:
 	_refresh_task_ui()
-	if player != null:
-		var last_task: Task = player.get_active_tasks().back() if not player.get_active_tasks().is_empty() else null
-		if last_task != null:
-			_show_task_notification("Tarefa: %s adicionada ao quadro" % last_task.task_name)
+	if player == null:
+		return
+	var concluidas: Array[Task] = []
+	for task in player.tasks:
+		if task != null and task.is_done:
+			concluidas.append(task)
+
+	if player.tasks.size() > qtd_missoes and not player.tasks.is_empty():
+		var nova: Task = player.tasks.back()
+		_show_task_notification("Nova missão: %s\n%s\n(Tab: ver missões)" % [nova.task_name, nova.description])
+	elif concluidas.size() > qtd_concluidas:
+		_show_task_notification("Missão concluída: %s!" % concluidas.back().task_name)
+
+	qtd_missoes = player.tasks.size()
+	qtd_concluidas = concluidas.size()
 
 
 func _find_task_panel() -> void:
@@ -83,8 +97,15 @@ func _setup_task_notification() -> void:
 	task_notification.visible = false
 	task_notification.modulate = Color(1.0, 0.95, 0.4, 1.0)
 	task_notification.add_theme_font_size_override("font_size", 18)
+	task_notification.add_theme_color_override("font_outline_color", Color.BLACK)
+	task_notification.add_theme_constant_override("outline_size", 4)
 	task_notification.position = Vector2(20, 220)
-	add_child(task_notification)
+	# Precisa ficar na CanvasLayer (coordenadas de tela); fora dela o texto vai para o
+	# mundo do jogo e some por causa do zoom da câmera.
+	if canvas != null:
+		canvas.add_child(task_notification)
+	else:
+		add_child(task_notification)
 
 
 func _show_task_notification(message: String) -> void:
@@ -92,7 +113,7 @@ func _show_task_notification(message: String) -> void:
 		return
 	task_notification.text = message
 	task_notification.visible = true
-	notification_timer = 2.2
+	notification_timer = 4.0
 
 
 func _process(delta: float) -> void:

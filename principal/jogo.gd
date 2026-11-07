@@ -7,14 +7,41 @@ const UI_SCENE := preload("res://UI/ui.tscn")
 
 var pause_menu_instance: Control = null
 
+const TELA_CONCLUSAO := "res://tela_conclusao.tscn"
+## Segundos entre a última entrega e a tela de vitória.
+const ESPERA_ANTES_DA_CONCLUSAO := 2.0
+var fim_de_jogo: bool = false
+
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	if Global != null:
+		# Zera o placar da partida anterior (senão "Jogar novamente" começa já vencido).
+		Global.reset_progress()
 		Global.set_total_tasks(5)
 		Global.last_survival_time = 0.0
 	_ensure_ui_is_loaded()
 	_refresh_global_task_count()
+	if Global != null:
+		Global.game_finished.connect(_on_game_finished)
+
+
+## Todas as missões concluídas: espera um pouco (para ver o aviso e a estação mudar)
+## e abre a tela de conclusão em modo vitória.
+func _on_game_finished() -> void:
+	if fim_de_jogo:
+		return
+	fim_de_jogo = true
+	var player := get_node_or_null("Player") as Player
+	if player != null:
+		player.set_physics_process(false)
+		Global.last_survival_time = player.survival_time
+	await get_tree().create_timer(ESPERA_ANTES_DA_CONCLUSAO).timeout
+	if not is_inside_tree():
+		return # saiu da fase (ex.: menu de pausa) durante a espera
+	var error := get_tree().change_scene_to_file(TELA_CONCLUSAO)
+	if error != OK:
+		push_error("Não foi possível abrir a tela de conclusão. Código: %s" % error)
 
 
 func _ensure_ui_is_loaded() -> void:

@@ -21,8 +21,13 @@ scale = Vector2(1.61, 1.61)
 shape = SubResource("CapsuleShape2D_1hr0u")
 
 [node name="PromptLabel" type="Label" parent="." unique_id=2034421121]
-offset_top = 40.0
-offset_right = 89.0
-offset_bottom = 63.0
-theme_override_font_sizes/font_size = 26
-text = "Pressione E"
+offset_left = -40.0
+offset_top = -32.0
+offset_right = 40.0
+offset_bottom = -20.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 8
+text = "E: pegar"
+horizontal_alignment = 1
+vertical_alignment = 1

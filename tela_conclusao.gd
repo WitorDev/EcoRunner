@@ -10,6 +10,8 @@ func _ready() -> void:
 
 	if Global != null:
 		tempo_final = Global.last_survival_time
+		# Vitória = todas as missões concluídas; se chegou aqui sem isso, o Leco morreu.
+		venceu = Global.is_game_finished
 
 	atualizar_tela()
 

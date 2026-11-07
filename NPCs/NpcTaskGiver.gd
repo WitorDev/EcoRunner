@@ -14,6 +14,7 @@ extends CharacterBody2D
 @onready var interaction_shape: CollisionShape2D = _get_interaction_shape()
 
 var nearby_player: Player = null
+var prompt_label: Label
 
 
 func _get_interaction_area() -> Area2D:
@@ -44,6 +45,34 @@ func _ready() -> void:
 			interaction_area.body_exited.connect(_on_body_exited)
 	else:
 		print("[NPC] Area2D de interação não encontrada. Verifique o nó 'InteractionArea' ou 'Area2D'.")
+	_setup_prompt_label()
+
+
+## Dica "E: conversar" acima do NPC (mesmo estilo do "E: pegar" dos itens).
+func _setup_prompt_label() -> void:
+	prompt_label = Label.new()
+	prompt_label.name = "PromptLabel"
+	prompt_label.text = "E: conversar"
+	prompt_label.position = Vector2(-40, -32)
+	prompt_label.size = Vector2(80, 12)
+	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	prompt_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	prompt_label.add_theme_font_size_override("font_size", 8)
+	prompt_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	prompt_label.add_theme_constant_override("outline_size", 2)
+	prompt_label.z_index = 2
+	prompt_label.visible = false
+	add_child(prompt_label)
+
+
+## Mostra a dica só com o player perto e se ele ainda não pegou a missão.
+func _update_prompt() -> void:
+	if prompt_label == null:
+		return
+	var mostrar := nearby_player != null
+	if mostrar and task_data != null and nearby_player.has_method("has_task"):
+		mostrar = not nearby_player.has_task(task_data.task_name)
+	prompt_label.visible = mostrar
 
 
 func _setup_visuals() -> void:
@@ -111,6 +140,7 @@ func _on_body_entered(body: Node) -> void:
 		return
 	if body is Player:
 		nearby_player = body
+		_update_prompt()
 
 
 func _on_body_exited(body: Node) -> void:
@@ -118,6 +148,7 @@ func _on_body_exited(body: Node) -> void:
 		return
 	if body == nearby_player:
 		nearby_player = null
+		_update_prompt()
 
 
 func _ensure_task_resource() -> Task:
@@ -141,10 +172,12 @@ func give_task_to_player(player: Player) -> bool:
 	if player.has_method("add_new_task"):
 		print("[NPC] entregando tarefa '%s' para o player." % task_template.task_name)
 		player.add_new_task(task_template)
+		_update_prompt()
 		return true
 	if player.has_method("add_task"):
 		print("[NPC] entregando tarefa '%s' via add_task()." % task_template.task_name)
 		player.add_task(task_template)
+		_update_prompt()
 		return true
 	print("[NPC] player não possui add_new_task nem add_task().")
 	return false

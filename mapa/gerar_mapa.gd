@@ -1,0 +1,183 @@
+@tool
+extends EditorScript
+
+## Gerador do mapa da fase única.
+##
+## Como usar: abra este script no editor e use File → Run (Ctrl+Shift+X).
+## O script abre `mapa/mapa.tscn` sozinho, redesenha e salva a cena.
+##
+## O script é idempotente: apaga todos os tiles e redesenha a fase inteira.
+##
+## Cada zona é desenhada em ASCII (1 caractere = 1 tile de 16x16 px):
+##   '#'  terreno (com colisão)
+##   '.'  vazio
+##   letra  marcador (vazio no mapa; a posição é impressa no Output)
+##          P = player, N = NPC, I = item, E = estação
+## As zonas são coladas lado a lado, da esquerda para a direita.
+
+const CENA_MAPA := "res://mapa/mapa.tscn"
+const TAM_TILE := 16
+const MEIO_TILE := 8
+const TERRAIN_SET := 0
+const TERRAIN := 0
+
+## Linha (em tiles) da primeira string de cada zona. A linha 0 é a superfície do
+## chão principal: o topo dela fica em y = 0 px.
+const PRIMEIRA_LINHA := -8
+
+## Linhas de terra extra abaixo da última linha do ASCII (só visual, a câmera vê até lá).
+const LINHAS_EXTRA_CHAO := 8
+## Colunas de terra sólida antes do início e depois do fim da fase (só visual).
+const MARGEM_COLUNAS := 10
+
+## Parede depois da última zona: fecha o fim da fase.
+const PAREDE_FINAL := true
+
+## Zona 1 — garrafa → lixeira. Tutorial: 1 degrau e 1 vão curto.
+const ZONA_1: Array[String] = [
+	"##............................", # -8
+	"##............................", # -7
+	"##............................", # -6
+	"##............................", # -5
+	"##............................", # -4
+	"##..............I.............", # -3
+	"##..........########..........", # -2
+	"##.P..N.....########......E...", # -1
+	"####################..########", #  0
+	"####################..########", #  1
+	"##############################", #  2
+	"##############################", #  3
+]
+
+## Zona 2 — extintor → fogo. Escada (2+2) até o platô do extintor; buraco raso; fogo no fim.
+const ZONA_2: Array[String] = [
+	"..............................", # -8
+	"..............................", # -7
+	"..............................", # -6
+	"................I.............", # -5
+	"............########..........", # -4
+	"............########..........", # -3
+	"..........##########..........", # -2
+	"...N......##########......E...", # -1
+	"####################..########", #  0
+	"####################..########", #  1
+	"##############################", #  2
+	"##############################", #  3
+]
+
+## Zona 3 — pilha → gerador. Pilha no ponto mais alto (6 tiles, subindo de 2 em 2);
+## do lado direito há um degrau de 3 para conseguir voltar.
+const ZONA_3: Array[String] = [
+	"..............................", # -8
+	"...............I..............", # -7
+	"............########..........", # -6
+	"............########..........", # -5
+	"..........##########..........", # -4
+	"..........############........", # -3
+	"........##############........", # -2
+	"...N....##############....E...", # -1
+	"##############################", #  0
+	"##############################", #  1
+	"##############################", #  2
+	"##############################", #  3
+]
+
+## Zona 4 — muda → canteiro. Vão de 4 tiles (fundo de 3) até a ilha da muda.
+const ZONA_4: Array[String] = [
+	"..............................", # -8
+	"..............................", # -7
+	"..............................", # -6
+	"..............................", # -5
+	"..............................", # -4
+	"..............................", # -3
+	".................I............", # -2
+	"...N..........########....E...", # -1
+	"##########....################", #  0
+	"##########....################", #  1
+	"##########....################", #  2
+	"##############################", #  3
+]
+
+## Zona 5 — filhote de lontra → rio limpo. Buraco curto, platô do filhote, rio no fim da fase.
+const ZONA_5: Array[String] = [
+	"..............................", # -8
+	"..............................", # -7
+	"..............................", # -6
+	"..............................", # -5
+	"................I.............", # -4
+	".............########.........", # -3
+	"...........##########.........", # -2
+	"...N.......##########.....E...", # -1
+	"#########..###################", #  0
+	"#########..###################", #  1
+	"##############################", #  2
+	"##############################", #  3
+]
+
+const ZONAS: Array = [ZONA_1, ZONA_2, ZONA_3, ZONA_4, ZONA_5]
+
+
+func _run() -> void:
+	# Abre (ou troca para) a aba de mapa.tscn, não importa qual cena está ativa.
+	EditorInterface.open_scene_from_path(CENA_MAPA)
+	var mapa := EditorInterface.get_edited_scene_root() as TileMapLayer
+	if mapa == null or mapa.scene_file_path != CENA_MAPA:
+		push_error("[gerar_mapa] Não consegui abrir %s como TileMapLayer." % CENA_MAPA)
+		return
+
+	mapa.clear()
+
+	var celulas: Array[Vector2i] = []
+	var coluna_inicial := 0
+	var altura := 0
+
+	for indice_zona in ZONAS.size():
+		var zona: Array = ZONAS[indice_zona]
+		altura = zona.size()
+		var largura := _largura_da_zona(zona, indice_zona)
+		for i in zona.size():
+			var linha_texto: String = zona[i]
+			var y := PRIMEIRA_LINHA + i
+			for c in linha_texto.length():
+				var ch := linha_texto[c]
+				var celula := Vector2i(coluna_inicial + c, y)
+				if ch == "#":
+					celulas.append(celula)
+				elif ch != ".":
+					_imprimir_marcador(ch, indice_zona + 1, celula)
+		coluna_inicial += largura
+
+	if PAREDE_FINAL:
+		for i in altura:
+			celulas.append(Vector2i(coluna_inicial, PRIMEIRA_LINHA + i))
+
+	# Chão extra por baixo de todas as colunas, para o fundo não aparecer sob o mapa.
+	var ultima_linha := PRIMEIRA_LINHA + altura
+	var fim := coluna_inicial + (1 if PAREDE_FINAL else 0)
+	for c in fim:
+		for y in range(ultima_linha, ultima_linha + LINHAS_EXTRA_CHAO):
+			celulas.append(Vector2i(c, y))
+
+	# Blocos sólidos além das duas pontas da fase (a câmera enxerga um pouco além).
+	for c in range(-MARGEM_COLUNAS, 0) + range(fim, fim + MARGEM_COLUNAS):
+		for y in range(PRIMEIRA_LINHA, ultima_linha + LINHAS_EXTRA_CHAO):
+			celulas.append(Vector2i(c, y))
+
+	mapa.set_cells_terrain_connect(celulas, TERRAIN_SET, TERRAIN)
+	EditorInterface.mark_scene_as_unsaved()
+	EditorInterface.save_scene()
+	print("[gerar_mapa] Pronto: %d tiles, %d colunas. %s salvo." % [celulas.size(), coluna_inicial, CENA_MAPA])
+
+
+func _largura_da_zona(zona: Array, indice_zona: int) -> int:
+	var largura: int = (zona[0] as String).length()
+	for linha_texto in zona:
+		if (linha_texto as String).length() != largura:
+			push_warning("[gerar_mapa] Zona %d tem linhas de larguras diferentes." % (indice_zona + 1))
+	return largura
+
+
+func _imprimir_marcador(ch: String, zona: int, celula: Vector2i) -> void:
+	var centro_x := celula.x * TAM_TILE + MEIO_TILE
+	var base_y := (celula.y + 1) * TAM_TILE
+	print("[gerar_mapa] Zona %d, '%s': coluna %d, linha %d → x = %d px, chão em y = %d px" % [zona, ch, celula.x, celula.y, centro_x, base_y])
