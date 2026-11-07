@@ -111,8 +111,7 @@ task_data = SubResource("Resource_75htp")
 sprite_sheet = ExtResource("9_5jntk")
 
 [node name="Pickupable3" parent="." unique_id=1234567890 instance=ExtResource("3_epdqg")]
-position = Vector2(264, -60)
-scale = Vector2(1.885, 1.885)
+position = Vector2(264, -50)
 item_data = SubResource("Resource_8lr5p")
 
 [node name="ComponentStation" parent="." unique_id=127876133 instance=ExtResource("2_5jntk")]
@@ -125,8 +124,7 @@ task_data = SubResource("Resource_udpx2")
 sprite_sheet = ExtResource("9_5jntk")
 
 [node name="Pickupable6" parent="." unique_id=710467890 instance=ExtResource("3_epdqg")]
-position = Vector2(744, -92)
-scale = Vector2(1.885, 1.885)
+position = Vector2(744, -82)
 item_data = SubResource("Resource_i7pil")
 
 [node name="ComponentStation4" parent="." unique_id=1939044976 instance=ExtResource("2_5jntk")]
@@ -140,8 +138,7 @@ task_data = SubResource("Resource_bjqwo")
 sprite_sheet = ExtResource("9_5jntk")
 
 [node name="Pickupable4" parent="." unique_id=893486740 instance=ExtResource("3_epdqg")]
-position = Vector2(1208, -124)
-scale = Vector2(1.885, 1.885)
+position = Vector2(1208, -114)
 item_data = SubResource("Resource_uu8s3")
 
 [node name="ComponentStation2" parent="." unique_id=649432950 instance=ExtResource("2_5jntk")]
@@ -155,8 +152,7 @@ task_data = SubResource("Resource_ocqjj")
 sprite_sheet = ExtResource("9_5jntk")
 
 [node name="Pickupable5" parent="." unique_id=1964210749 instance=ExtResource("3_epdqg")]
-position = Vector2(1720, -44)
-scale = Vector2(1.885, 1.885)
+position = Vector2(1720, -34)
 item_data = SubResource("Resource_8crqx")
 
 [node name="ComponentStation3" parent="." unique_id=512258082 instance=ExtResource("2_5jntk")]
@@ -170,11 +166,12 @@ task_data = SubResource("Resource_0yqbc")
 sprite_sheet = ExtResource("9_5jntk")
 
 [node name="Pickupable7" parent="." unique_id=512520618 instance=ExtResource("3_epdqg")]
-position = Vector2(2184, -76)
-scale = Vector2(1.885, 1.885)
+position = Vector2(2184, -66)
 item_data = SubResource("Resource_e8swd")
 
 [node name="ComponentStation5" parent="." unique_id=920092022 instance=ExtResource("2_5jntk")]
-position = Vector2(2344, -32)
+position = Vector2(2336, -8)
 required_item_id = "filhote_lontra"
+interaction_radius = 80.0
 sprite_sheet = ExtResource("19_rio")
+frame_size = Vector2i(128, 64)

@@ -4,6 +4,7 @@ Uso (na raiz do projeto):  python pixel_art/gerar_sprites.py
 Não precisa de bibliotecas externas. Sobrescreve os PNGs em pixel_art/.
 
 Itens: 16x16. Estações: 128x64 (2 quadros de 64x64: 0 = pendente, 1 = feito).
+Exceção: rio.png tem 256x64 (2 quadros de 128x64; em jogo.tscn, frame_size = 128x64).
 """
 import os
 import struct
@@ -34,8 +35,10 @@ class Tela:
             for xx in range(x, x + w):
                 self.px(xx, yy, c)
 
-    def elipse(self, cx, cy, rx, ry, c):
+    def elipse(self, cx, cy, rx, ry, c, y_min=None):
         for y in range(int(cy - ry) - 1, int(cy + ry) + 2):
+            if y_min is not None and y < y_min:
+                continue
             for x in range(int(cx - rx) - 1, int(cx + rx) + 2):
                 if ((x + 0.5 - cx) / rx) ** 2 + ((y + 0.5 - cy) / ry) ** 2 <= 1.0:
                     self.px(x, y, c)
@@ -90,9 +93,9 @@ class Tela:
 
 
 def folha(pendente, feito):
-    t = Tela(128, 64)
+    t = Tela(pendente.w * 2, pendente.h)
     t.colar(pendente, 0, 0)
-    t.colar(feito, 64, 0)
+    t.colar(feito, pendente.w, 0)
     return t
 
 
@@ -223,34 +226,52 @@ def canteiro():
 
 
 def rio():
-    def base():
-        t = Tela(64, 64)
-        t.elipse(32, 52, 31, 11, "#8d8d7a")
-        t.elipse(32, 52, 28, 9, "#2f7fc1")
-        t.ret(16, 50, 8, 1, "#7cc6ff")
-        t.ret(36, 55, 10, 1, "#7cc6ff")
-        t.ret(26, 58, 6, 1, "#7cc6ff")
-        for x in (3, 5, 58, 60):
-            t.linha(x, 50, x + (1 if x < 32 else -1), 36, "#3f8f2f")
+    """Lago de 128x64 por quadro, afundado no chão.
+
+    A superfície da água fica na linha SUPERFICIE do quadro; no jogo a estação é posta
+    em y = chão - 8, então essa linha coincide com o topo do chão e a água "entra" nele.
+    """
+    SUPERFICIE = 40
+
+    def quadro(com_lontras):
+        t = Tela(128, 64)
+        # margem de terra e pedras (bacia)
+        t.elipse(64, SUPERFICIE, 63, 23, "#5b3a1f", y_min=SUPERFICIE)
+        t.elipse(64, SUPERFICIE, 61, 21, "#7a7466", y_min=SUPERFICIE)
+
+        enfeites = Tela(128, 64)
+        for x in (6, 10, 14, 113, 117, 121):
+            topo = 22 + (x % 3) * 3
+            enfeites.linha(x, SUPERFICIE + 1, x, topo, "#3f8f2f")
+            enfeites.ret(x, topo - 3, 1, 3, "#6b4423")
+        if com_lontras:
+            enfeites.elipse(54, 37, 5.5, 5.5, "#8a5a34")
+            enfeites.elipse(55, 39, 3.2, 2, "#d9b28a")
+            enfeites.px(52, 35, "#111111")
+            enfeites.px(57, 35, "#111111")
+            enfeites.elipse(72, 38.5, 3.8, 3.8, "#8a5a34")
+            enfeites.elipse(72.5, 40, 2.2, 1.4, "#d9b28a")
+            enfeites.px(71, 37, "#111111")
+            enfeites.px(74, 37, "#111111")
+        enfeites.contorno()
+        t.colar(enfeites, 0, 0)
+
+        # água por cima (cobre a parte de baixo das lontras)
+        t.elipse(64, SUPERFICIE, 59, 19, "#2f7fc1", y_min=SUPERFICIE + 1)
+        t.elipse(64, SUPERFICIE + 2, 44, 13, "#25689f", y_min=SUPERFICIE + 6)
+        t.ret(6, SUPERFICIE, 116, 1, "#7cc6ff")
+        for x, y, w in ((22, 46, 12), (80, 48, 14), (48, 53, 10), (90, 54, 6)):
+            t.ret(x, y, w, 1, "#7cc6ff")
+        t.elipse(98, SUPERFICIE + 1, 5, 1.6, "#3f9e3a")
+        if com_lontras:
+            for x, w in ((46, 4), (60, 4), (66, 3), (77, 3)):
+                t.ret(x, SUPERFICIE + 2, w, 1, "#cfefff")
+            for x, y in ((62, 19), (64, 19), (61, 20), (62, 20), (63, 20), (64, 20), (65, 20),
+                         (62, 21), (63, 21), (64, 21), (63, 22)):
+                t.px(x, y, "#e84c6a")
         return t
 
-    vazio = base()
-    vazio.contorno()
-
-    lontras = base()
-    lontras.elipse(25, 47, 5, 5, "#8a5a34")
-    lontras.elipse(26, 49, 3, 2, "#d9b28a")
-    lontras.px(24, 45, "#111111")
-    lontras.px(28, 45, "#111111")
-    lontras.elipse(39, 50, 3.5, 3.5, "#8a5a34")
-    lontras.elipse(39.5, 51.5, 2, 1.4, "#d9b28a")
-    lontras.px(38, 49, "#111111")
-    lontras.px(41, 49, "#111111")
-    lontras.contorno()
-    for x, y in ((31, 33), (33, 33), (30, 34), (31, 34), (32, 34), (33, 34), (34, 34),
-                 (31, 35), (32, 35), (33, 35), (32, 36)):
-        lontras.px(x, y, "#e84c6a")
-    return folha(vazio, lontras)
+    return folha(quadro(False), quadro(True))
 
 
 if __name__ == "__main__":
