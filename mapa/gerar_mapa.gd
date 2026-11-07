@@ -25,6 +25,11 @@ const TERRAIN := 0
 ## chão principal: o topo dela fica em y = 0 px.
 const PRIMEIRA_LINHA := -8
 
+## Linhas de terra extra abaixo da última linha do ASCII (só visual, a câmera vê até lá).
+const LINHAS_EXTRA_CHAO := 8
+## Colunas de terra sólida antes do início e depois do fim da fase (só visual).
+const MARGEM_COLUNAS := 10
+
 ## Parede depois da última zona: fecha o fim da fase.
 const PAREDE_FINAL := true
 
@@ -145,6 +150,18 @@ func _run() -> void:
 	if PAREDE_FINAL:
 		for i in altura:
 			celulas.append(Vector2i(coluna_inicial, PRIMEIRA_LINHA + i))
+
+	# Chão extra por baixo de todas as colunas, para o fundo não aparecer sob o mapa.
+	var ultima_linha := PRIMEIRA_LINHA + altura
+	var fim := coluna_inicial + (1 if PAREDE_FINAL else 0)
+	for c in fim:
+		for y in range(ultima_linha, ultima_linha + LINHAS_EXTRA_CHAO):
+			celulas.append(Vector2i(c, y))
+
+	# Blocos sólidos além das duas pontas da fase (a câmera enxerga um pouco além).
+	for c in range(-MARGEM_COLUNAS, 0) + range(fim, fim + MARGEM_COLUNAS):
+		for y in range(PRIMEIRA_LINHA, ultima_linha + LINHAS_EXTRA_CHAO):
+			celulas.append(Vector2i(c, y))
 
 	mapa.set_cells_terrain_connect(celulas, TERRAIN_SET, TERRAIN)
 	EditorInterface.mark_scene_as_unsaved()
