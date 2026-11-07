@@ -21,6 +21,11 @@
 [ext_resource type="Texture2D" path="res://pixel_art/filhote_lontra.png" id="18_filho"]
 [ext_resource type="Texture2D" path="res://pixel_art/rio.png" id="19_rio"]
 [ext_resource type="PackedScene" path="res://fundo/fundo.tscn" id="20_fundo"]
+[ext_resource type="PackedScene" path="res://obstaculos/obstaculo.tscn" id="21_obst"]
+[ext_resource type="Texture2D" path="res://pixel_art/obstaculo_barril.png" id="22_barril"]
+[ext_resource type="Texture2D" path="res://pixel_art/obstaculo_chama.png" id="23_chama"]
+[ext_resource type="Texture2D" path="res://pixel_art/obstaculo_fio.png" id="24_fio"]
+[ext_resource type="Texture2D" path="res://pixel_art/obstaculo_espinhos.png" id="25_espinhos"]
 
 [sub_resource type="Resource" id="Resource_8lr5p"]
 script = ExtResource("5_bjqwo")
@@ -178,3 +183,31 @@ required_item_id = "filhote_lontra"
 interaction_radius = 80.0
 sprite_sheet = ExtResource("19_rio")
 frame_size = Vector2i(128, 64)
+
+[node name="Obstaculo_Z1_Barril" parent="." instance=ExtResource("21_obst")]
+position = Vector2(152, -8)
+textura = ExtResource("22_barril")
+
+[node name="Obstaculo_Z2_Chama1" parent="." instance=ExtResource("21_obst")]
+position = Vector2(600, -8)
+textura = ExtResource("23_chama")
+
+[node name="Obstaculo_Z2_Chama2" parent="." instance=ExtResource("21_obst")]
+position = Vector2(792, -72)
+textura = ExtResource("23_chama")
+
+[node name="Obstaculo_Z3_Fio1" parent="." instance=ExtResource("21_obst")]
+position = Vector2(1064, -8)
+textura = ExtResource("24_fio")
+
+[node name="Obstaculo_Z3_Fio2" parent="." instance=ExtResource("21_obst")]
+position = Vector2(1256, -104)
+textura = ExtResource("24_fio")
+
+[node name="Obstaculo_Z4_Espinhos1" parent="." instance=ExtResource("21_obst")]
+position = Vector2(1560, -8)
+textura = ExtResource("25_espinhos")
+
+[node name="Obstaculo_Z4_Espinhos2" parent="." instance=ExtResource("21_obst")]
+position = Vector2(1768, -24)
+textura = ExtResource("25_espinhos")

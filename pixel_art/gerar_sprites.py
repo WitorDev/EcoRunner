@@ -145,6 +145,66 @@ def filhote_lontra():
     return t
 
 
+# ------------------------------------------------------- obstáculos 16x16
+# Ficam apoiados no chão (base na linha 15). Encostar tira 1 coração.
+
+def barril_toxico():
+    t = Tela(16, 16)
+    t.ret(4, 4, 8, 11, "#d9b42c")
+    t.ret(5, 5, 1, 9, "#f2d35c")
+    t.ret(11, 4, 1, 11, "#9c7f1a")
+    t.ret(4, 6, 8, 1, "#3a3a3a")
+    t.ret(4, 12, 8, 1, "#3a3a3a")
+    t.ret(4, 3, 8, 1, "#9c7f1a")
+    t.elipse(8, 9.5, 1.6, 1.6, "#3a3a3a")
+    t.ret(2, 15, 12, 1, "#7bdc3c")
+    t.ret(10, 14, 4, 1, "#7bdc3c")
+    t.ret(6, 2, 2, 2, "#7bdc3c")
+    t.px(6, 4, "#7bdc3c")
+    t.contorno()
+    return t
+
+
+def chama():
+    t = Tela(16, 16)
+    t.ret(3, 14, 10, 2, "#5a3a1e")
+    t.elipse(8, 11, 5, 4, "#d8341c")
+    t.elipse(6, 8, 2.2, 4, "#d8341c")
+    t.elipse(10, 7, 2.2, 5, "#d8341c")
+    t.elipse(8, 5, 1.6, 4, "#d8341c")
+    t.elipse(8, 11.5, 3.2, 2.6, "#f5841f")
+    t.elipse(8.5, 8, 1.4, 3, "#f5841f")
+    t.elipse(8, 12, 1.6, 1.6, "#ffd23f")
+    t.contorno()
+    return t
+
+
+def fio_eletrico():
+    t = Tela(16, 16)
+    t.linha(0, 13, 4, 14, "#2a2a2a", 2)
+    t.linha(4, 14, 9, 12, "#2a2a2a", 2)
+    t.ret(10, 12, 2, 1, "#d98b3a")
+    t.px(12, 11, "#d98b3a")
+    t.px(12, 13, "#d98b3a")
+    t.contorno()
+    for x0, y0, x1, y1 in ((12, 10, 10, 7), (10, 7, 12, 5), (12, 5, 10, 2),
+                           (13, 11, 15, 8), (14, 12, 15, 13)):
+        t.linha(x0, y0, x1, y1, "#ffe066")
+    t.px(11, 6, "#ffffff")
+    return t
+
+
+def espinhos():
+    t = Tela(16, 16)
+    t.elipse(8, 11.5, 7, 4.5, "#2f6e2b")
+    t.elipse(7, 10.5, 4, 2.5, "#3f8f2f")
+    for x, y in ((2, 9), (5, 6), (8, 6), (11, 6), (14, 9), (1, 12), (15, 12), (10, 8), (4, 9)):
+        t.px(x, y, "#efe6c8")
+        t.px(x, y - 1 if y > 7 else y, "#efe6c8")
+    t.contorno()
+    return t
+
+
 # ----------------------------------------------------------- estações 64x64
 
 def fogo():
@@ -282,3 +342,7 @@ if __name__ == "__main__":
     gerador().salvar("gerador.png")
     canteiro().salvar("canteiro.png")
     rio().salvar("rio.png")
+    barril_toxico().salvar("obstaculo_barril.png")
+    chama().salvar("obstaculo_chama.png")
+    fio_eletrico().salvar("obstaculo_fio.png")
+    espinhos().salvar("obstaculo_espinhos.png")
