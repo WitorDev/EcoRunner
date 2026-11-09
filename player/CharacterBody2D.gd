@@ -285,6 +285,10 @@ func _physics_process(delta: float) -> void:
 		print("[Player] ação interact pressionada. itens_perto=%s" % nearby_pickupables.size())
 		_try_pickup()
 
+	if Input.is_action_just_pressed("drop_item"):
+		var drop_direction := -1.0 if animated_sprite.flip_h else 1.0
+		inventory.drop_current_item(global_position + Vector2(24.0 * drop_direction, 0.0))
+
 	_update_animation(move_input)
 
 
