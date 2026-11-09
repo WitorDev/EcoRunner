@@ -71,6 +71,30 @@ func remove_item(item_id: String, quantity: int = 1) -> bool:
 	return true
 
 
+func drop_current_item(drop_position: Vector2) -> bool:
+	if items.is_empty():
+		return false
+
+	var slot: Dictionary = items[0]
+	var item_data := slot.get("data") as ItemData
+	if item_data == null:
+		push_error("Não foi possível soltar o item: o primeiro espaço do inventário está inválido.")
+		return false
+
+	if not _spawn_pickup(item_data, drop_position):
+		return false
+
+	var quantity: int = int(slot.get("quantity", 1))
+	if quantity > 1:
+		slot["quantity"] = quantity - 1
+		items[0] = slot
+	else:
+		items.remove_at(0)
+
+	_emit_inventory_changed()
+	return true
+
+
 func get_current_item() -> ItemData:
 	if items.is_empty():
 		return null
@@ -88,17 +112,39 @@ func _drop_oldest_item() -> void:
 		return
 
 	var old_slot: Dictionary = items.pop_front()
-	var old_item: Resource = old_slot["data"]
-
-	var pickup := PICKUPABLE_SCENE.instantiate()
-	pickup.item_data = old_item
+	var old_item := old_slot.get("data") as ItemData
+	if old_item == null:
+		push_error("Não foi possível soltar o item antigo: o primeiro espaço do inventário está inválido.")
+		items.push_front(old_slot)
+		return
 
 	var player := get_parent()
-	if player != null and is_instance_valid(player):
-		get_tree().current_scene.add_child(pickup)
-		pickup.global_position = player.global_position
-	else:
-		get_tree().current_scene.add_child(pickup)
-		pickup.global_position = Vector2.ZERO
+	var drop_position := Vector2.ZERO
+	if player is Node2D and is_instance_valid(player):
+		drop_position = player.global_position
+	if not _spawn_pickup(old_item, drop_position):
+		items.push_front(old_slot)
+		return
 
 	_emit_inventory_changed()
+
+
+func _spawn_pickup(item_data: ItemData, spawn_position: Vector2) -> bool:
+	var current_scene := get_tree().current_scene
+	if current_scene == null:
+		push_error("Não foi possível soltar o item: a cena atual não está disponível.")
+		return false
+	var scene_2d := current_scene as Node2D
+	if scene_2d == null:
+		push_error("Não foi possível soltar o item: a cena atual não suporta objetos 2D.")
+		return false
+
+	var pickup := PICKUPABLE_SCENE.instantiate() as Pickupable
+	if pickup == null:
+		push_error("Não foi possível criar o coletável para o item.")
+		return false
+
+	pickup.item_data = item_data
+	pickup.position = scene_2d.to_local(spawn_position)
+	current_scene.add_child(pickup)
+	return true

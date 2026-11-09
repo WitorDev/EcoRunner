@@ -1,14 +1,7 @@
 extends Control
 
-# Variável para ligar o inventário do Player
-@export var inventory: InventoryComponent
-
-@onready var slot_icon: TextureRect = get_node_or_null("%SlotIcon")
 @onready var canvas: CanvasLayer = get_node_or_null("CanvasLayer")
 @onready var health_display: RichTextLabel = get_node_or_null("CanvasLayer/HealthDisplay")
-
-@export_range(0.0, 1.0) var disabled_opacity: float = 0.3
-@export_range(0.0, 1.0) var active_opacity: float = 1.0
 
 var task_panel: PanelContainer
 var task_list: VBoxContainer
@@ -23,7 +16,6 @@ var qtd_concluidas: int = 0
 func _ready() -> void:
 	_setup_task_notification()
 	_bind_player()
-	_update_slot_ui(null)
 	_find_task_panel()
 	_set_task_panel_visible(false)
 
@@ -48,11 +40,6 @@ func _bind_player() -> void:
 			_update_health_display(player.health, player.max_health)
 		if player.has_signal("tasks_changed"):
 			player.tasks_changed.connect(_on_tasks_changed)
-		if player.has_node("InventoryComponent"):
-			inventory = player.get_node("InventoryComponent") as InventoryComponent
-			if inventory != null and inventory.has_signal("item_changed"):
-				inventory.item_changed.connect(_update_slot_ui)
-			_update_slot_ui(inventory.current_item if inventory != null else null)
 		_refresh_task_ui()
 
 
@@ -167,15 +154,3 @@ func _refresh_task_ui() -> void:
 		done_label.text = "✓ %s" % completed_task.task_name
 		done_label.modulate = Color(0.5, 1.0, 0.5, 1.0)
 		task_list.add_child(done_label)
-
-
-func _update_slot_ui(item: ItemData) -> void:
-	if slot_icon == null:
-		return
-
-	if item != null and item.icon != null:
-		slot_icon.texture = item.icon
-		slot_icon.modulate.a = active_opacity
-	else:
-		slot_icon.texture = null
-		slot_icon.modulate.a = disabled_opacity
