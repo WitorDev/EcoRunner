@@ -7,9 +7,54 @@ var total_tasks: int = 5
 var is_game_finished: bool = false
 var last_survival_time: float = 0.0
 var menu_music_player: AudioStreamPlayer
+const SCORE_FILE := "user://eco_runner_scores.cfg"
+const MAX_SCORES := 5
+var completion_times: Array[float] = []
 
 signal tasks_progress_changed(completed: int, total: int)
 signal game_finished
+
+
+func _ready() -> void:
+	_load_completion_times()
+
+
+func _load_completion_times() -> void:
+	var config := ConfigFile.new()
+	if config.load(SCORE_FILE) != OK:
+		return
+
+	completion_times.clear()
+	for index in range(MAX_SCORES):
+		if config.has_section_key("scores", str(index)):
+			var time_value: float = float(config.get_value("scores", str(index), 0.0))
+			if time_value > 0.0:
+				completion_times.append(time_value)
+	completion_times.sort()
+
+
+func register_completion_time(time_value: float) -> void:
+	if time_value <= 0.0:
+		return
+
+	completion_times.append(time_value)
+	completion_times.sort()
+	if completion_times.size() > MAX_SCORES:
+		completion_times.resize(MAX_SCORES)
+
+	var config := ConfigFile.new()
+	for index in completion_times.size():
+		config.set_value("scores", str(index), completion_times[index])
+	var error := config.save(SCORE_FILE)
+	if error != OK:
+		push_error("Não foi possível salvar as pontuações. Código: %s" % error)
+
+
+func format_time(time_value: float) -> String:
+	var total_seconds := int(time_value)
+	var minutes := int(total_seconds / 60)
+	var seconds := total_seconds % 60
+	return "%02d:%02d" % [minutes, seconds]
 
 
 func play_menu_music() -> void:

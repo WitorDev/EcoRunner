@@ -18,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.08, 0.1, 0.14, 1)
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1996203643]
 layout_mode = 1
@@ -29,20 +30,36 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1997376747]
 layout_mode = 2
+theme_override_constants/separation = 18
 
 [node name="Titulo" type="Label" parent="CenterContainer/VBoxContainer" unique_id=2017006351]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
 
 [node name="Tempo" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1453027309]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1, 0.9, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+horizontal_alignment = 1
 
 [node name="BtnJogarNovamente" type="Button" parent="CenterContainer/VBoxContainer" unique_id=966208050]
 layout_mode = 2
-text = "JOGAR NOVAMENTE
-"
+custom_minimum_size = Vector2(260, 48)
+theme_override_font_sizes/font_size = 18
+text = "JOGAR NOVAMENTE"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 
 [node name="BtnMenuInicial" type="Button" parent="CenterContainer/VBoxContainer" unique_id=288391023]
 layout_mode = 2
+custom_minimum_size = Vector2(260, 48)
+theme_override_font_sizes/font_size = 18
 text = "MENU INICIAL"
+theme_override_colors/font_color = Color(1, 1, 1, 1)

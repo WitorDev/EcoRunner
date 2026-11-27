@@ -308,6 +308,7 @@ func _die() -> void:
 	animated_sprite.stop()
 	set_physics_process(false)
 	Global.last_survival_time = survival_time
+	Global.is_game_finished = false
 
 	var error := get_tree().change_scene_to_file("res://tela_conclusao.tscn")
 	if error != OK:

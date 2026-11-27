@@ -11,10 +11,12 @@ var notification_timer: float = 0.0
 ## Usados para saber se a mudança nas missões foi "nova missão" ou "missão concluída".
 var qtd_missoes: int = 0
 var qtd_concluidas: int = 0
+var time_display: Label
 
 
 func _ready() -> void:
 	_setup_task_notification()
+	_setup_time_display()
 	_bind_player()
 	_find_task_panel()
 	_set_task_panel_visible(false)
@@ -95,6 +97,20 @@ func _setup_task_notification() -> void:
 		add_child(task_notification)
 
 
+func _setup_time_display() -> void:
+	time_display = Label.new()
+	time_display.name = "TimeDisplay"
+	time_display.text = "TEMPO  00:00"
+	time_display.add_theme_font_size_override("font_size", 22)
+	time_display.add_theme_color_override("font_outline_color", Color.BLACK)
+	time_display.add_theme_constant_override("outline_size", 4)
+	time_display.position = Vector2(16, 56)
+	if canvas != null:
+		canvas.add_child(time_display)
+	else:
+		add_child(time_display)
+
+
 func _show_task_notification(message: String) -> void:
 	if task_notification == null:
 		return
@@ -108,6 +124,8 @@ func _process(delta: float) -> void:
 		notification_timer -= delta
 		if notification_timer <= 0.0 and task_notification != null:
 			task_notification.visible = false
+	if player != null and time_display != null:
+		time_display.text = "TEMPO  " + Global.format_time(player.survival_time)
 
 
 func _toggle_task_panel() -> void:

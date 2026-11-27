@@ -7,9 +7,8 @@ class_name Pickupable
 @export var hover_amplitude: float = 2.5
 @export var hover_speed: float = 1.2
 @export var hover_offset: Vector2 = Vector2.ZERO
-## Altura do ícone na tela, em pixels do jogo (o Leco tem ~31 px). O sprite é escalado
-## para essa altura; use múltiplos da altura do PNG (16 ou 32) para a pixel art ficar nítida.
-@export var altura_na_tela: float = 32.0
+## Altura do item no mundo, em pixels do jogo. O personagem tem ~31 px de altura.
+@export var altura_na_tela: float = 16.0
 
 @onready var prompt_label: Label = $PromptLabel
 @onready var sprite: Sprite2D = $Sprite2D

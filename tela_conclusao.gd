@@ -17,20 +17,13 @@ func _ready() -> void:
 
 
 func atualizar_tela() -> void:
-	var minutos := int(tempo_final) / 60
-	var segundos := int(tempo_final) % 60
-	
 	if venceu:
 		$CenterContainer/VBoxContainer/Titulo.text = "VOCÊ VENCEU!"
-		
-		$CenterContainer/VBoxContainer/Tempo.text = "TEMPO FINAL\n%02d:%02d" % [minutos, segundos]
-		
+		$CenterContainer/VBoxContainer/Tempo.text = "TEMPO DE CONCLUSÃO\n%s" % Global.format_time(tempo_final)
 		$CenterContainer/VBoxContainer/BtnJogarNovamente.text = "JOGAR NOVAMENTE"
 	else:
 		$CenterContainer/VBoxContainer/Titulo.text = "VOCÊ PERDEU!"
-		
-		$CenterContainer/VBoxContainer/Tempo.text = "Tempo sobrevivido: %02d:%02d" % [minutos, segundos]
-		
+		$CenterContainer/VBoxContainer/Tempo.text = "TEMPO JOGADO\n%s" % Global.format_time(tempo_final)
 		$CenterContainer/VBoxContainer/BtnJogarNovamente.text = "TENTAR NOVAMENTE"
 
 

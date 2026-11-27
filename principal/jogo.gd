@@ -36,6 +36,7 @@ func _on_game_finished() -> void:
 	if player != null:
 		player.set_physics_process(false)
 		Global.last_survival_time = player.survival_time
+		Global.register_completion_time(player.survival_time)
 	await get_tree().create_timer(ESPERA_ANTES_DA_CONCLUSAO).timeout
 	if not is_inside_tree():
 		return # saiu da fase (ex.: menu de pausa) durante a espera
