@@ -1,10 +1,8 @@
 [gd_scene format=3 uid="uid://dxjbmk8cofjh1"]
 
 [ext_resource type="Script" uid="uid://rs17v8duxamo" path="res://tela_inicial/main_menu.gd" id="1_n76tf"]
-[sub_resource type="CanvasTexture" id="CanvasTexture_rhts7"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_06t4h"]
-font_size = 34
+[ext_resource type="Texture2D" uid="uid://pnt7kw4fvea2" path="res://tela_inicial/pontuacao/Aventura Pixelada sob a Cúpula Verde.png" id="2_rn1h5"]
+[ext_resource type="Texture2D" uid="uid://bekkdda2fhy0g" path="res://tela_inicial/Logo Pixelado ECORUNNER em Amarelo Retro.png" id="3_lpy78"]
 
 [node name="MainMenu" type="Control" unique_id=695981376]
 layout_mode = 3
@@ -22,7 +20,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("CanvasTexture_rhts7")
+texture = ExtResource("2_rn1h5")
 expand_mode = 1
 stretch_mode = 6
 
@@ -31,19 +29,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -1.0
+offset_right = -3.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1140873757]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=584202048]
-modulate = Color(1, 0.89411765, 0, 1)
-self_modulate = Color(1, 0.8235294, 0.047058824, 1)
-layout_mode = 2
-text = "ECORUNNER"
-label_settings = SubResource("LabelSettings_06t4h")
-horizontal_alignment = 1
 
 [node name="BtnJogar" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1521766575]
 layout_mode = 2
@@ -60,3 +54,8 @@ text = "PONTUAÇÃO"
 [node name="BtnSair" type="Button" parent="CenterContainer/VBoxContainer" unique_id=254233101]
 layout_mode = 2
 text = "SAIR"
+
+[node name="LogoPixeladoEcorunnerEmAmareloRetro" type="Sprite2D" parent="." unique_id=1986491246]
+position = Vector2(574, 117)
+scale = Vector2(0.28025585, 0.2960345)
+texture = ExtResource("3_lpy78")
